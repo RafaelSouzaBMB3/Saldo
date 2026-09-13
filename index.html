@@ -1400,291 +1400,6 @@ html, body {
   }
 </style>
 
-
-<style id="CORRECAO_LAYOUT_GITHUB_SALDO_FINAL">
-/* ============================================================
-   CORREÇÃO FINAL DE LAYOUT — PROJETO SALDO / GITHUB
-   Não altera a origem dos dados.
-   Não altera VIDEO_BMB3, OBRAS ou CONTROLADOR.
-   ============================================================ */
-
-html,
-body {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-/* ============================================================
-   TELA 02 — SITUAÇÃO DOS CONTRATOS
-   O problema era a tabela comprimindo as 6 linhas.
-   ============================================================ */
-
-.tela-dashboard[data-tela="1"] .screen-shell {
-  display: flex !important;
-  flex-direction: column !important;
-  height: calc(100vh - 56px) !important;
-  min-height: 0 !important;
-}
-
-.tela-dashboard[data-tela="1"] .tela2-table-panel {
-  display: flex !important;
-  flex-direction: column !important;
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-}
-
-.tela-dashboard[data-tela="1"] .tela2-title {
-  flex: 0 0 auto !important;
-  margin-bottom: 12px !important;
-  font-size: 24px !important;
-}
-
-.tela-dashboard[data-tela="1"] .tela2-table {
-  display: flex !important;
-  flex-direction: column !important;
-  flex: 1 1 auto !important;
-  width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-}
-
-.tela-dashboard[data-tela="1"] .tela2-head {
-  flex: 0 0 42px !important;
-  min-height: 42px !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows {
-  display: grid !important;
-  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
-  flex: 1 1 auto !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row {
-  display: grid !important;
-  grid-template-columns: 1fr 2.1fr 1.2fr 1.2fr !important;
-  flex: none !important;
-  min-height: 0 !important;
-  height: auto !important;
-  font-size: 20px !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row > div {
-  min-width: 0 !important;
-  padding: 0 8px !important;
-  line-height: 1.05 !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-lote {
-  font-size: 22px !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-contrato {
-  font-size: 18px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-valor {
-  font-size: 19px !important;
-  white-space: nowrap !important;
-}
-
-.tela-dashboard[data-tela="1"] .tela2-info {
-  flex: 0 0 72px !important;
-  min-height: 72px !important;
-  margin-top: 0 !important;
-}
-
-.tela-dashboard[data-tela="1"] .screen-footer {
-  flex: 0 0 auto !important;
-  margin-top: 10px !important;
-}
-
-/* ============================================================
-   TELA 03 — DESEMPENHO POR LOTE
-   Compacta os 6 conjuntos de barras para caber no monitor
-   sem cortar os dados.
-   ============================================================ */
-
-.tela-dashboard[data-tela="2"] .screen-shell {
-  display: flex !important;
-  flex-direction: column !important;
-  height: calc(100vh - 56px) !important;
-  min-height: 0 !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lotes-panel {
-  display: flex !important;
-  flex-direction: column !important;
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-  padding: 18px 22px 16px !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lotes-header {
-  flex: 0 0 auto !important;
-  margin-bottom: 10px !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lotes {
-  flex: 1 1 auto !important;
-  width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-  overflow: hidden !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lote {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  min-height: 0 !important;
-  height: 100% !important;
-  padding: 14px 12px !important;
-  overflow: hidden !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lote-nome {
-  flex: 0 0 auto !important;
-  font-size: 20px !important;
-  padding-bottom: 7px !important;
-  margin: 0 !important;
-}
-
-.tela-dashboard[data-tela="2"] .grafico-lote-clientes {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 8px !important;
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
-
-.tela-dashboard[data-tela="2"] .lote-cliente {
-  min-width: 0 !important;
-  padding: 0 5px !important;
-}
-
-.tela-dashboard[data-tela="2"] .lote-cliente + .lote-cliente {
-  padding-left: 9px !important;
-}
-
-.tela-dashboard[data-tela="2"] .lote-cliente-nome {
-  font-size: 15px !important;
-  margin-bottom: 8px !important;
-}
-
-.tela-dashboard[data-tela="2"] .lote-cliente-barras {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 7px !important;
-}
-
-.tela-dashboard[data-tela="2"] .barra-linha-cliente {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 3px !important;
-  min-height: 0 !important;
-}
-
-.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-label {
-  font-size: 9px !important;
-  line-height: 1 !important;
-  margin: 0 !important;
-}
-
-.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-trilho {
-  width: 100% !important;
-  height: 19px !important;
-  min-height: 19px !important;
-  border-radius: 6px !important;
-}
-
-.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-numero {
-  font-size: 9px !important;
-  line-height: 1 !important;
-  font-weight: 900 !important;
-  color: #000000 !important;
-  text-shadow: none !important;
-  padding: 0 3px !important;
-}
-
-.tela-dashboard[data-tela="2"] .screen3-summary {
-  flex: 0 0 auto !important;
-  margin-top: 12px !important;
-}
-
-.tela-dashboard[data-tela="2"] .screen3-summary > div {
-  padding: 11px 14px !important;
-}
-
-.tela-dashboard[data-tela="2"] .screen3-summary strong {
-  font-size: 16px !important;
-}
-
-.tela-dashboard[data-tela="2"] .screen-footer {
-  flex: 0 0 auto !important;
-  margin-top: 9px !important;
-}
-
-/* Em monitores baixos, compacta mais sem criar rolagem. */
-@media (max-height: 800px) {
-  .tela-dashboard[data-tela="1"] .screen-header,
-  .tela-dashboard[data-tela="2"] .screen-header {
-    margin-bottom: 14px !important;
-  }
-
-  .tela-dashboard[data-tela="1"] .tela2-info {
-    flex-basis: 64px !important;
-    min-height: 64px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .grafico-lotes-panel {
-    padding-top: 14px !important;
-    padding-bottom: 12px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .grafico-lote {
-    padding: 11px 10px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .grafico-lote-nome {
-    font-size: 19px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .lote-cliente-nome {
-    font-size: 14px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .lote-cliente-barras {
-    gap: 5px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-trilho {
-    height: 17px !important;
-    min-height: 17px !important;
-  }
-
-  .tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-numero {
-    font-size: 8.5px !important;
-  }
-}
-</style>
-
 </head>
 <body>
 <div class="tela-dashboard" data-tela="0">
@@ -2784,48 +2499,16 @@ body {
 <script>
 
 function atualizarTela4(dados) {
+
   if (!dados) return;
 
-  function numero(v) {
-    if (v === null || v === undefined || v === '') return 0;
-    if (typeof v === 'number') return isFinite(v) ? v : 0;
-
-    let s = String(v)
-      .trim()
-      .replace(/R\$/gi, '')
-      .replace(/\s/g, '');
-
-    if (s.indexOf(',') >= 0) {
-      s = s.replace(/\./g, '').replace(',', '.');
-    } else {
-      s = s.replace(/[^\d.-]/g, '');
-    }
-
-    const n = parseFloat(s);
-    return isFinite(n) ? n : 0;
-  }
-
-  function campo(obj, nomes) {
-    if (!obj || typeof obj !== 'object') return null;
-
-    for (let i = 0; i < nomes.length; i++) {
-      if (Object.prototype.hasOwnProperty.call(obj, nomes[i])) {
-        const v = obj[nomes[i]];
-        if (v !== null && v !== undefined && String(v).trim() !== '') {
-          return v;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  /*
-   * Se a API fornecer tela4, usamos exatamente essa informação.
-   * A API atual, porém, trabalha principalmente com contratos.
-   */
   let tela4 = dados.tela4;
 
+  /*
+   * O projeto SALDO retorna os contratos diretamente.
+   * Se tela4 não vier na API, montamos exatamente a mesma
+   * informação usando os saldos dos contratos SESI/SENAI.
+   */
   if (!tela4) {
 
     const registros =
@@ -2835,6 +2518,7 @@ function atualizarTela4(dados) {
 
     let sesi = 0;
     let senai = 0;
+    const lotes = {};
 
     registros.forEach(function(item) {
 
@@ -2842,26 +2526,37 @@ function atualizarTela4(dados) {
 
       const cliente =
         String(
-          campo(item, [
-            'cliente',
-            'CLIENTE',
-            'Cliente'
-          ]) || ''
+          item.cliente ||
+          item.CLIENTE ||
+          item.Cliente ||
+          ''
         )
         .trim()
         .toUpperCase();
 
       const saldo =
-        numero(
-          campo(item, [
-            'saldo',
-            'SALDO',
-            'Saldo',
-            'saldoContrato',
-            'valorSaldo',
-            'valor_saldo'
-          ])
+        numeroSeguro(
+          item.saldo ??
+          item.SALDO ??
+          item.Saldo ??
+          item.saldoContrato ??
+          item.valorSaldo ??
+          item.valor_saldo
         );
+
+      const loteTxt =
+        String(
+          item.lote ||
+          item.LOTE ||
+          item.Lote ||
+          ''
+        );
+
+      const m =
+        loteTxt.match(/\d+/);
+
+      const lote =
+        m ? m[0] : '';
 
       if (cliente.indexOf('SESI') !== -1) {
         sesi += saldo;
@@ -2870,62 +2565,54 @@ function atualizarTela4(dados) {
       if (cliente.indexOf('SENAI') !== -1) {
         senai += saldo;
       }
+
+      if (lote) {
+        lotes[lote] = true;
+      }
     });
 
-    const total =
+    const saldoTotal =
       sesi + senai;
 
     tela4 = {
       sesi: sesi,
       senai: senai,
-      saldoTotal: total,
-      total: total,
+      saldoTotal: saldoTotal,
       percentualSESI:
-        total > 0
-          ? (sesi / total) * 100
+        saldoTotal > 0
+          ? (sesi / saldoTotal) * 100
           : 0,
       percentualSENAI:
-        total > 0
-          ? (senai / total) * 100
+        saldoTotal > 0
+          ? (senai / saldoTotal) * 100
           : 0,
-      lotes: ['2', '5', '6']
+      lotes: ['2', '5', '6'].filter(function(lote) {
+        return lotes[lote];
+      })
     };
-
-    console.log(
-      'SALDO GITHUB — TELA 04 — dados calculados:',
-      tela4
-    );
   }
 
   const sesi =
-    numero(tela4.sesi);
+    numeroSeguro(tela4.sesi);
 
   const senai =
-    numero(tela4.senai);
+    numeroSeguro(tela4.senai);
 
-  const total =
-    numero(
+  const saldoTotal =
+    numeroSeguro(
       tela4.saldoTotal ||
       tela4.total
     );
 
-  let percentualSESI =
-    numero(tela4.percentualSESI);
+  const percentualSESI =
+    numeroSeguro(
+      tela4.percentualSESI
+    );
 
-  let percentualSENAI =
-    numero(tela4.percentualSENAI);
-
-  if (
-    percentualSESI === 0 &&
-    percentualSENAI === 0 &&
-    total > 0
-  ) {
-    percentualSESI =
-      (sesi / total) * 100;
-
-    percentualSENAI =
-      (senai / total) * 100;
-  }
+  const percentualSENAI =
+    numeroSeguro(
+      tela4.percentualSENAI
+    );
 
   if ($('tela4ValorSESI')) {
     $('tela4ValorSESI').textContent =
@@ -2939,7 +2626,7 @@ function atualizarTela4(dados) {
 
   if ($('tela4SaldoTotal')) {
     $('tela4SaldoTotal').textContent =
-      moeda(total);
+      moeda(saldoTotal);
   }
 
   if ($('tela4PercentualSESI')) {
@@ -2953,8 +2640,14 @@ function atualizarTela4(dados) {
   }
 
   if ($('tela4Lotes')) {
-    $('tela4Lotes').textContent =
-      'LOTES 2 • 5 • 6';
+    if (
+      Array.isArray(tela4.lotes) &&
+      tela4.lotes.length
+    ) {
+      $('tela4Lotes').textContent =
+        'LOTES ' +
+        tela4.lotes.join(' • ');
+    }
   }
 
   if ($('tela4Atualizacao')) {
@@ -2980,89 +2673,24 @@ function atualizarTela4(dados) {
 
     if (barraSESI) {
       barraSESI.style.width =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            percentualSESI
-          )
+        Math.min(
+          100,
+          Math.max(0, percentualSESI)
         ) + '%';
     }
 
     if (barraSENAI) {
       barraSENAI.style.width =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            percentualSENAI
-          )
+        Math.min(
+          100,
+          Math.max(0, percentualSENAI)
         ) + '%';
     }
 
-  }, 80);
+  }, 120);
 }
 
-</script>
 
-
-
-
-
-
-
-
-
-<div class="tela-dashboard" data-tela="4">
-<div class="tela5-shell">
-<div class="tela5-header"><div><div class="tela5-kicker">DASHBOARD — SALDO CONTRATOS</div><h1>Farol dos Contratos</h1><div class="tela5-subtitle">Visão consolidada da situação dos contratos por classificação</div></div><div class="tela5-badge">TELA 05</div></div>
-<div class="tela5-panel"><div class="tela5-title">SITUAÇÃO DOS CONTRATOS</div>
-<div class="tela5-cards">
-<div class="tela5-card verde"><div class="tela5-top"><div class="tela5-light"></div><div class="tela5-label">VERDE</div></div><div id="t5v" class="tela5-value">0</div><div id="t5vp" class="tela5-pct">0,00%</div><div class="tela5-progress"><i id="t5vb"></i></div></div>
-<div class="tela5-card amarelo"><div class="tela5-top"><div class="tela5-light"></div><div class="tela5-label">AMARELO</div></div><div id="t5a" class="tela5-value">0</div><div id="t5ap" class="tela5-pct">0,00%</div><div class="tela5-progress"><i id="t5ab"></i></div></div>
-<div class="tela5-card vermelho"><div class="tela5-top"><div class="tela5-light"></div><div class="tela5-label">VERMELHO</div></div><div id="t5r" class="tela5-value">0</div><div id="t5rp" class="tela5-pct">0,00%</div><div class="tela5-progress"><i id="t5rb"></i></div></div>
-<div class="tela5-card neutro"><div class="tela5-top"><div class="tela5-light"></div><div class="tela5-label">NÃO CLASSIFICADO</div></div><div id="t5n" class="tela5-value">0</div><div id="t5np" class="tela5-pct">0,00%</div><div class="tela5-progress"><i id="t5nb"></i></div></div>
-</div>
-<div class="tela5-lower">
-<div class="tela5-box"><div class="tela5-box-title">DISTRIBUIÇÃO GERAL</div><div class="tela5-dist"><div class="tela5-track"><i id="t5tv" class="v"></i><i id="t5ta" class="a"></i><i id="t5tr" class="r"></i><i id="t5tn" class="n"></i></div><div class="tela5-legenda"><div><span><i class="tela5-dot t5v"></i>Verde</span><b id="t5lv">0</b></div><div><span><i class="tela5-dot t5a"></i>Amarelo</span><b id="t5la">0</b></div><div><span><i class="tela5-dot t5r"></i>Vermelho</span><b id="t5lr">0</b></div><div><span><i class="tela5-dot t5n"></i>Não classificado</span><b id="t5ln">0</b></div></div></div></div>
-<div class="tela5-box"><div class="tela5-box-title">DISTRIBUIÇÃO POR LOTE</div><table class="tela5-table"><thead><tr><th>LOTE</th><th>🟢 VERDE</th><th>🟡 AMARELO</th><th>🔴 VERMELHO</th><th>⚪ NÃO CLASS.</th><th>TOTAL</th></tr></thead><tbody id="t5lotes"><tr><td colspan="6">Carregando dados...</td></tr></tbody></table></div>
-</div>
-<div class="tela5-footer"><span id="t5base">Base: carregando...</span><span>Atualização: <b id="t5data">--</b></span></div>
-</div></div></div>
-
-<div id="indicadorTelas"></div>
-<script>
-/***************************************************************
- * DASHBOARD - SALDO CONTRATOS
- * 5 TELAS REAIS — 20 SEGUNDOS POR TELA
- ***************************************************************/
-
-const TEMPO_TELA = 20000;
-const TEMPO_TRANSICAO = 800;
-
-const PARAMETROS_URL =
-  new URLSearchParams(window.location.search);
-
-const MODO_CICLO =
-  PARAMETROS_URL.get('modo') === 'ciclo';
-
-const URL_CONTROLADOR =
-  'https://script.google.com/macros/s/AKfycby5VZR_ja8szmf8wjXql9zL0d_NrcmTJOkaDkIDVs9zI6nAH5Bs6gRB-DKfELQHXmtM/exec';
-
-/* API JSONP DO DASHBOARD SALDO NO GOOGLE APPS SCRIPT */
-const URL_API_SALDO =
-  'https://script.google.com/macros/s/AKfycbyJHYfVZbPhrZJBS_-TmyJrjpZB7mH4xw1cJ3YGOv6a-IppBzkEvpFk3b85HQQJPJcV4g/exec';
-
-let scriptApiSaldo = null;
-
-let dashboardDados = null;
-let telaAtual = 0;
-let timerTelas = null;
-let frameBolinhas = null;
-
-/***************************************************************
- * UTILITÁRIOS
- ***************************************************************/
 function $(id) {
   return document.getElementById(id);
 }
@@ -3120,8 +2748,7 @@ function textoAtualizacao(dados) {
  ***************************************************************/
 function carregarDashboard() {
 
-  const status =
-    $('status');
+  const status = $('status');
 
   if (status) {
     status.classList.remove('erro');
@@ -3129,8 +2756,7 @@ function carregarDashboard() {
       'Carregando dados da base de contratos...';
   }
 
-  const chartLoading =
-    $('chartLoading');
+  const chartLoading = $('chartLoading');
 
   if (chartLoading) {
     chartLoading.classList.remove('hidden');
@@ -3138,73 +2764,56 @@ function carregarDashboard() {
       'Carregando dados...';
   }
 
-  /*
-   * O INDEX ESTÁ HOSPEDADO NO GITHUB PAGES.
-   * Portanto não existe google.script.run (INDISPONIVEL NO GITHUB) neste ambiente.
-   *
-   * Usamos JSONP porque o Apps Script fornece a API em outro
-   * domínio e o carregamento por <script> permite a chamada
-   * sem iframe, sem postMessage e sem servidor intermediário.
-   */
+  const callbackName =
+    'saldoDashboardCallback_' + Date.now();
 
-  const callback =
-    'receberDashboard_' +
-    Date.now();
-
-  window[callback] = function(dados) {
+  window[callbackName] = function(dados) {
 
     try {
       receberDashboard(dados);
     } finally {
-
       try {
-        delete window[callback];
+        delete window[callbackName];
       } catch (e) {}
 
-      if (scriptApiSaldo && scriptApiSaldo.parentNode) {
-        scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
-      }
+      const scripts =
+        document.querySelectorAll(
+          'script[data-saldo-api="1"]'
+        );
 
-      scriptApiSaldo = null;
+      scripts.forEach(function(script) {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
     }
   };
 
-  const url =
+  const script =
+    document.createElement('script');
+
+  script.dataset.saldoApi = '1';
+
+  script.onerror = function() {
+
+    try {
+      delete window[callbackName];
+    } catch (e) {}
+
+    erroDashboard({
+      message:
+        'Não foi possível carregar os dados do projeto SALDO.'
+    });
+  };
+
+  script.src =
     URL_API_SALDO +
     '?api=saldo&callback=' +
-    encodeURIComponent(callback) +
+    encodeURIComponent(callbackName) +
     '&_=' +
     Date.now();
 
-  scriptApiSaldo =
-    document.createElement('script');
-
-  scriptApiSaldo.src = url;
-  scriptApiSaldo.async = true;
-
-  scriptApiSaldo.onerror = function() {
-
-    console.error(
-      'SALDO — erro ao chamar a API JSONP:',
-      url
-    );
-
-    erroDashboard({
-      message: 'Não foi possível chamar o Dashboard Saldo no Google Apps Script.'
-    });
-
-    try {
-      delete window[callback];
-    } catch (e) {}
-
-    if (scriptApiSaldo && scriptApiSaldo.parentNode) {
-      scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
-    }
-
-    scriptApiSaldo = null;
-  };
-
-  document.head.appendChild(scriptApiSaldo);
+  document.head.appendChild(script);
 }
 
 
@@ -4322,148 +3931,138 @@ function testarTela5() {
 
 function carregarTela5() {
 
-  /*
-   * No GitHub Pages não existe google.script.run (INDISPONIVEL NO GITHUB).
-   *
-   * A chamada JSONP já trouxe os mesmos dados do Dashboard
-   * para dashboardDados. Portanto a Tela 5 usa diretamente
-   * dados.contratos.
-   */
-
-  const dados =
-    dashboardDados ||
-    window.__dashboardDados;
-
-  if (!dados) {
-    console.warn(
-      'SALDO GITHUB — Tela 5: dados ainda não carregados.'
-    );
-    return;
-  }
+  if (!dashboardDados) return;
 
   const registros =
-    Array.isArray(dados.contratos)
-      ? dados.contratos
+    Array.isArray(dashboardDados.contratos)
+      ? dashboardDados.contratos
       : [];
 
-  let verde = 0;
-  let amarelo = 0;
-  let vermelho = 0;
-  let naoClassificado = 0;
+  const resultado = {
+    quantidadeVerde: 0,
+    quantidadeAmarelo: 0,
+    quantidadeVermelho: 0,
+    quantidadeNaoClassificado: 0,
+    percentualVerde: 0,
+    percentualAmarelo: 0,
+    percentualVermelho: 0,
+    percentualNaoClassificado: 0,
+    base:
+      dashboardDados.base ||
+      'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5',
+    atualizacao:
+      textoAtualizacao(dashboardDados),
+    lotes: []
+  };
 
-  const mapaLotes = {};
+  const mapa = {};
 
-  function normalizar(valor) {
-    return String(
-      valor === null ||
-      valor === undefined
-        ? ''
-        : valor
-    )
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim()
-      .toUpperCase();
-  }
-
-  function obterLote(item) {
-
-    const valor =
-      item &&
-      (
-        item.lote ??
-        item.LOTE ??
-        item.Lote ??
-        item.numeroLote ??
-        item.numero
-      );
-
-    const m =
+  function normalizarLote(valor) {
+    const txt =
       String(
         valor === null ||
         valor === undefined
           ? ''
           : valor
-      ).match(/\d+/);
+      ).trim();
+
+    const m =
+      txt.match(/\d+/);
 
     return m ? m[0] : '';
   }
 
-  function obterFarol(item) {
+  function obterPercentualExecucao(item) {
 
-    if (!item || typeof item !== 'object') {
-      return '';
+    const candidatos = [
+      item.execucao,
+      item.percentualExecucao,
+      item.percentual,
+      item.executado,
+      item.execucaoPercentual
+    ];
+
+    for (let i = 0; i < candidatos.length; i++) {
+      if (
+        candidatos[i] !== undefined &&
+        candidatos[i] !== null &&
+        candidatos[i] !== ''
+      ) {
+        return numeroSeguro(candidatos[i]);
+      }
     }
 
-    return String(
-      item.farol ??
-      item.FAROL ??
-      item.Farol ??
-      item.status ??
-      item.situacao ??
-      ''
-    ).trim();
+    const total =
+      numeroSeguro(
+        item.total ||
+        item.contratado ||
+        item.valorTotal ||
+        item.valorContrato
+      );
+
+    const faturado =
+      numeroSeguro(
+        item.faturado ||
+        item.pedidoAprovado ||
+        item.valorFaturado ||
+        item.valorPedidoAprovado
+      );
+
+    if (total > 0) {
+      return (faturado / total) * 100;
+    }
+
+    return null;
   }
 
   function classificar(item) {
 
-    const original =
-      obterFarol(item);
+    const valor =
+      obterPercentualExecucao(item);
 
-    const n =
-      normalizar(original);
+    if (valor === null || !isFinite(valor)) {
+      return 'NAO_CLASSIFICADO';
+    }
 
-    if (
-      n.indexOf('VERDE') !== -1 ||
-      original.indexOf('🟢') !== -1
-    ) {
+    if (valor >= 50) {
       return 'VERDE';
     }
 
-    if (
-      n.indexOf('AMARELO') !== -1 ||
-      n.indexOf('AMARELA') !== -1 ||
-      original.indexOf('🟡') !== -1
-    ) {
+    if (valor >= 20) {
       return 'AMARELO';
     }
 
-    if (
-      n.indexOf('VERMELHO') !== -1 ||
-      n.indexOf('VERMELHA') !== -1 ||
-      original.indexOf('🔴') !== -1
-    ) {
-      return 'VERMELHO';
-    }
-
-    return 'NAO_CLASSIFICADO';
+    return 'VERMELHO';
   }
 
   registros.forEach(function(item) {
 
-    const categoria =
-      classificar(item);
-
-    if (categoria === 'VERDE') {
-      verde++;
-    }
-    else if (categoria === 'AMARELO') {
-      amarelo++;
-    }
-    else if (categoria === 'VERMELHO') {
-      vermelho++;
-    }
-    else {
-      naoClassificado++;
-    }
+    if (!item || typeof item !== 'object') return;
 
     const lote =
-      obterLote(item);
+      normalizarLote(
+        item.lote ||
+        item.LOTE ||
+        item.Lote
+      );
 
-    if (!lote) return;
+    const classe =
+      classificar(item);
 
-    if (!mapaLotes[lote]) {
-      mapaLotes[lote] = {
+    if (classe === 'VERDE') {
+      resultado.quantidadeVerde++;
+    } else if (classe === 'AMARELO') {
+      resultado.quantidadeAmarelo++;
+    } else if (classe === 'VERMELHO') {
+      resultado.quantidadeVermelho++;
+    } else {
+      resultado.quantidadeNaoClassificado++;
+    }
+
+    if (!['2', '5', '6'].includes(lote)) return;
+
+    if (!mapa[lote]) {
+      mapa[lote] = {
         lote: lote,
         verde: 0,
         amarelo: 0,
@@ -4473,114 +4072,212 @@ function carregarTela5() {
       };
     }
 
-    mapaLotes[lote].total++;
+    mapa[lote].total++;
 
-    if (categoria === 'VERDE') {
-      mapaLotes[lote].verde++;
-    }
-    else if (categoria === 'AMARELO') {
-      mapaLotes[lote].amarelo++;
-    }
-    else if (categoria === 'VERMELHO') {
-      mapaLotes[lote].vermelho++;
-    }
-    else {
-      mapaLotes[lote].naoClassificado++;
+    if (classe === 'VERDE') {
+      mapa[lote].verde++;
+    } else if (classe === 'AMARELO') {
+      mapa[lote].amarelo++;
+    } else if (classe === 'VERMELHO') {
+      mapa[lote].vermelho++;
+    } else {
+      mapa[lote].naoClassificado++;
     }
   });
 
   const total =
-    verde +
-    amarelo +
-    vermelho +
-    naoClassificado;
+    registros.length;
 
-  const resultado = {
+  if (total > 0) {
+    resultado.percentualVerde =
+      resultado.quantidadeVerde / total * 100;
 
-    quantidadeVerde:
-      verde,
+    resultado.percentualAmarelo =
+      resultado.quantidadeAmarelo / total * 100;
 
-    quantidadeAmarelo:
-      amarelo,
+    resultado.percentualVermelho =
+      resultado.quantidadeVermelho / total * 100;
 
-    quantidadeVermelho:
-      vermelho,
+    resultado.percentualNaoClassificado =
+      resultado.quantidadeNaoClassificado / total * 100;
+  }
 
-    quantidadeNaoClassificado:
-      naoClassificado,
-
-    percentualVerde:
-      total > 0
-        ? (verde / total) * 100
-        : 0,
-
-    percentualAmarelo:
-      total > 0
-        ? (amarelo / total) * 100
-        : 0,
-
-    percentualVermelho:
-      total > 0
-        ? (vermelho / total) * 100
-        : 0,
-
-    percentualNaoClassificado:
-      total > 0
-        ? (naoClassificado / total) * 100
-        : 0,
-
-    base:
-      dados.base ||
-      'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5',
-
-    atualizacao:
-      dados.atualizadoEm ||
-      dados.atualizacao ||
-      '--',
-
-    lotes:
-      Object.keys(mapaLotes)
-        .sort(function(a, b) {
-          return Number(a) - Number(b);
-        })
-        .map(function(chave) {
-          return mapaLotes[chave];
-        })
-  };
+  ['2', '5', '6'].forEach(function(lote) {
+    if (mapa[lote]) {
+      resultado.lotes.push(mapa[lote]);
+    }
+  });
 
   window.__dadosTela5 =
     resultado;
 
-  console.log(
-    'SALDO GITHUB — TELA 05:',
-    resultado
-  );
-
-  atualizarTela5(
-    resultado
-  );
+  atualizarTela5(resultado);
 }
-function contarTela5(el,valor){
-  if(!el)return; var fim=Number(valor)||0,inicio=performance.now();
-  function f(t){var p=Math.min(1,(t-inicio)/1100);p=1-Math.pow(1-p,3);el.textContent=Math.round(fim*p).toLocaleString('pt-BR');if(p<1)requestAnimationFrame(f)}
+
+function contarTela5(el, valor) {
+  if (!el) return;
+
+  const fim =
+    Number(valor) || 0;
+
+  const inicio =
+    performance.now();
+
+  function f(t) {
+
+    let p =
+      Math.min(
+        1,
+        (t - inicio) / 1100
+      );
+
+    p =
+      1 -
+      Math.pow(
+        1 - p,
+        3
+      );
+
+    el.textContent =
+      Math.round(
+        fim * p
+      ).toLocaleString('pt-BR');
+
+    if (p < 1) {
+      requestAnimationFrame(f);
+    }
+  }
+
   requestAnimationFrame(f);
 }
-function atualizarTela5(d){
-  if(!d)return;
-  var q=[Number(d.quantidadeVerde||0),Number(d.quantidadeAmarelo||0),Number(d.quantidadeVermelho||0),Number(d.quantidadeNaoClassificado||0)];
-  var p=[Number(d.percentualVerde||0),Number(d.percentualAmarelo||0),Number(d.percentualVermelho||0),Number(d.percentualNaoClassificado||0)];
-  ['t5v','t5a','t5r','t5n'].forEach(function(id,i){contarTela5($(id),q[i])});
-  ['t5vp','t5ap','t5rp','t5np'].forEach(function(id,i){if($(id))$(id).textContent=percentual(p[i])});
-  ['t5vb','t5ab','t5rb','t5nb'].forEach(function(id,i){if($(id))$(id).style.width=Math.max(0,Math.min(100,p[i]))+'%'});
-  ['t5tv','t5ta','t5tr','t5tn'].forEach(function(id,i){if($(id))$(id).style.width=Math.max(0,Math.min(100,p[i]))+'%'});
-  ['t5lv','t5la','t5lr','t5ln'].forEach(function(id,i){if($(id))$(id).textContent=q[i]});
-  if($('t5base'))$('t5base').textContent='Base: '+(d.base||'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5');
-  if($('t5data'))$('t5data').textContent=d.atualizacao||'--';
-  var tb=$('t5lotes'), lotes=Array.isArray(d.lotes)?d.lotes:[];
-  if(!tb)return;
-  if(!lotes.length){tb.innerHTML='<tr><td colspan="6">Nenhum lote encontrado.</td></tr>';return}
-  tb.innerHTML='';
-  lotes.forEach(function(x){var tr=document.createElement('tr');tr.innerHTML='<td>LOTE '+escapeHtml(x.lote||'')+'</td><td class="t5gv">'+Number(x.verde||0)+'</td><td class="t5ga">'+Number(x.amarelo||0)+'</td><td class="t5gr">'+Number(x.vermelho||0)+'</td><td class="t5gn">'+Number(x.naoClassificado||0)+'</td><td>'+Number(x.total||0)+'</td>';tb.appendChild(tr)})
+
+function atualizarTela5(d) {
+
+  if (!d) return;
+
+  const q = [
+    Number(d.quantidadeVerde || 0),
+    Number(d.quantidadeAmarelo || 0),
+    Number(d.quantidadeVermelho || 0),
+    Number(d.quantidadeNaoClassificado || 0)
+  ];
+
+  const p = [
+    Number(d.percentualVerde || 0),
+    Number(d.percentualAmarelo || 0),
+    Number(d.percentualVermelho || 0),
+    Number(d.percentualNaoClassificado || 0)
+  ];
+
+  ['t5v','t5a','t5r','t5n']
+    .forEach(function(id, i) {
+      contarTela5($(id), q[i]);
+    });
+
+  ['t5vp','t5ap','t5rp','t5np']
+    .forEach(function(id, i) {
+      if ($(id)) {
+        $(id).textContent =
+          percentual(p[i]);
+      }
+    });
+
+  ['t5vb','t5ab','t5rb','t5nb']
+    .forEach(function(id, i) {
+      if ($(id)) {
+        $(id).style.width =
+          Math.max(
+            0,
+            Math.min(100, p[i])
+          ) + '%';
+      }
+    });
+
+  ['t5tv','t5ta','t5tr','t5tn']
+    .forEach(function(id, i) {
+      if ($(id)) {
+        $(id).style.width =
+          Math.max(
+            0,
+            Math.min(100, p[i])
+          ) + '%';
+      }
+    });
+
+  ['t5lv','t5la','t5lr','t5ln']
+    .forEach(function(id, i) {
+      if ($(id)) {
+        $(id).textContent =
+          q[i];
+      }
+    });
+
+  if ($('t5base')) {
+    $('t5base').textContent =
+      'Base: ' +
+      (
+        d.base ||
+        'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5'
+      );
+  }
+
+  if ($('t5data')) {
+    $('t5data').textContent =
+      d.atualizacao || '--';
+  }
+
+  const tb =
+    $('t5lotes');
+
+  const lotes =
+    Array.isArray(d.lotes)
+      ? d.lotes
+      : [];
+
+  if (!tb) return;
+
+  if (!lotes.length) {
+    tb.innerHTML =
+      '<tr><td colspan="6">' +
+      'Nenhum lote encontrado.' +
+      '</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = '';
+
+  lotes.forEach(function(x) {
+
+    const tr =
+      document.createElement('tr');
+
+    tr.innerHTML =
+      '<td>LOTE ' +
+      escapeHtml(x.lote || '') +
+      '</td>' +
+
+      '<td class="t5gv">' +
+      Number(x.verde || 0) +
+      '</td>' +
+
+      '<td class="t5ga">' +
+      Number(x.amarelo || 0) +
+      '</td>' +
+
+      '<td class="t5gr">' +
+      Number(x.vermelho || 0) +
+      '</td>' +
+
+      '<td class="t5gn">' +
+      Number(x.naoClassificado || 0) +
+      '</td>' +
+
+      '<td>' +
+      Number(x.total || 0) +
+      '</td>';
+
+    tb.appendChild(tr);
+  });
 }
 
 /***************************************************************
@@ -4653,25 +4350,23 @@ function atualizarTela1(dados) {
 
 
 function atualizarTela2(dados) {
+
   const container = $('screen2Rows');
   if (!container) return;
 
-  /*
-   * RELATÓRIO 2 — FONTE:
-   * ABA CONTRATOS
-   *
-   * O Apps Script envia os registros da aba CONTRATOS
-   * dentro de dados.contratos.
-   *
-   * Não agrupamos por lote.
-   * Cada contrato permanece como uma linha individual.
-   */
+  console.log('TELA 02 - dados recebidos:', dados);
+
+  const ordemLotes = ['2', '5', '6'];
 
   function valorFinanceiro(valor) {
     if (valor === null || valor === undefined || valor === '') return 0;
-    if (typeof valor === 'number') return isFinite(valor) ? valor : 0;
 
-    let texto = String(valor).trim()
+    if (typeof valor === 'number') {
+      return isFinite(valor) ? valor : 0;
+    }
+
+    let texto = String(valor)
+      .trim()
       .replace(/R\$/gi, '')
       .replace(/\s/g, '');
 
@@ -4683,18 +4378,25 @@ function atualizarTela2(dados) {
       texto = texto.replace(/[^\d.-]/g, '');
     }
 
-    const n = parseFloat(texto);
-    return isFinite(n) ? n : 0;
+    const numero = parseFloat(texto);
+    return isFinite(numero) ? numero : 0;
   }
 
-  function campo(obj, nomes) {
-    if (!obj || typeof obj !== 'object') return null;
+  function pegarCampo(objeto, nomes) {
+    if (!objeto || typeof objeto !== 'object') return null;
 
     for (let i = 0; i < nomes.length; i++) {
-      if (Object.prototype.hasOwnProperty.call(obj, nomes[i])) {
-        const v = obj[nomes[i]];
-        if (v !== null && v !== undefined && String(v).trim() !== '') {
-          return v;
+      const nome = nomes[i];
+
+      if (Object.prototype.hasOwnProperty.call(objeto, nome)) {
+        const valor = objeto[nome];
+
+        if (
+          valor !== null &&
+          valor !== undefined &&
+          String(valor).trim() !== ''
+        ) {
+          return valor;
         }
       }
     }
@@ -4703,146 +4405,145 @@ function atualizarTela2(dados) {
   }
 
   function numeroLote(item) {
-    const v = campo(item, [
-      'lote', 'LOTE', 'Lote', 'numeroLote', 'numero', 'loteNumero'
+    const valor = pegarCampo(item, [
+      'lote',
+      'LOTE',
+      'Lote',
+      'numeroLote',
+      'numero',
+      'loteNumero'
     ]);
 
-    const m = String(v == null ? '' : v).match(/\d+/);
-    return m ? m[0] : '';
-  }
-
-  function cliente(item) {
     return String(
-      campo(item, ['cliente', 'CLIENTE', 'Cliente']) || ''
-    ).trim().toUpperCase();
+      valor === null || valor === undefined ? '' : valor
+    ).replace(/[^0-9]/g, '');
   }
 
-  function contrato(item) {
-    return String(
-      campo(item, [
-        'contrato',
-        'CONTRATO',
-        'Contrato',
-        'contratoNome',
-        'descricao'
-      ]) || ''
-    ).trim();
+  function nomeContrato(item) {
+    const valor = pegarCampo(item, [
+      'contratoNome',
+      'contrato',
+      'CONTRATO',
+      'cliente',
+      'CLIENTE',
+      'descricao'
+    ]);
+
+    return (
+      valor === null ||
+      valor === undefined ||
+      String(valor).trim() === ''
+    )
+      ? 'SESI / SENAI'
+      : String(valor);
   }
 
-  function saldo(item) {
-    return valorFinanceiro(
-      campo(item, [
-        'saldo',
-        'SALDO',
-        'Saldo',
-        'saldoContrato',
-        'valorSaldo',
-        'valor_saldo'
-      ])
-    );
+  function valorSESI(item) {
+    const valor = pegarCampo(item, [
+      'sesi',
+      'SESI',
+      'Sesi',
+      'valorSESI',
+      'valorSesi',
+      'saldoSESI',
+      'saldoSesi',
+      'saldoSesiContrato',
+      'sesiSaldo'
+    ]);
+
+    return valorFinanceiro(valor);
   }
 
-  const registros =
-    dados && Array.isArray(dados.contratos)
-      ? dados.contratos
-      : [];
+  function valorSENAI(item) {
+    const valor = pegarCampo(item, [
+      'senai',
+      'SENAI',
+      'Senai',
+      'valorSENAI',
+      'valorSenai',
+      'saldoSENAI',
+      'saldoSenai',
+      'saldoSenaiContrato',
+      'senaiSaldo'
+    ]);
 
-  const ordem = {
-    '2|SENAI': 1,
-    '5|SENAI': 2,
-    '6|SENAI': 3,
-    '2|SESI': 4,
-    '5|SESI': 5,
-    '6|SESI': 6
-  };
+    return valorFinanceiro(valor);
+  }
 
-  const linhas = [];
+  /*
+   * O Code.gs já entrega os dados finais em dados.lotes.
+   * A Tela 02 usa essa estrutura diretamente.
+   */
+  let lista = [];
 
-  registros.forEach(function(item) {
+  if (dados && Array.isArray(dados.lotes)) {
+    lista = dados.lotes;
+  } else if (dados && Array.isArray(dados.contratos)) {
+    lista = dados.contratos;
+  } else if (dados && Array.isArray(dados.resultadoTela2)) {
+    lista = dados.resultadoTela2;
+  } else if (dados && Array.isArray(dados.tela2)) {
+    lista = dados.tela2;
+  }
+
+  const mapa = {};
+
+  lista.forEach(function(item) {
     if (!item || typeof item !== 'object') return;
 
     const lote = numeroLote(item);
-    const cli = cliente(item);
 
-    if (['2', '5', '6'].indexOf(lote) === -1) return;
+    if (ordemLotes.indexOf(lote) === -1) return;
 
-    if (
-      cli.indexOf('SESI') === -1 &&
-      cli.indexOf('SENAI') === -1
-    ) {
-      return;
-    }
-
-    const tipo =
-      cli.indexOf('SENAI') !== -1
-        ? 'SENAI'
-        : 'SESI';
-
-    linhas.push({
+    mapa[lote] = {
       lote: lote,
-      cliente: tipo,
-      contratoNome: contrato(item) || tipo,
-      saldo: saldo(item),
-      ordem: ordem[lote + '|' + tipo] || 99
+      contratoNome: nomeContrato(item),
+      sesi: valorSESI(item),
+      senai: valorSENAI(item)
+    };
+  });
+
+  const lotes = ordemLotes
+    .filter(function(numero) {
+      return !!mapa[numero];
+    })
+    .map(function(numero) {
+      return mapa[numero];
     });
-  });
 
-  linhas.sort(function(a, b) {
-    return a.ordem - b.ordem;
-  });
+  console.log('TELA 02 - lotes finais:', lotes);
 
-  console.log(
-    'SALDO GITHUB — TELA 02 — CONTRATOS:',
-    linhas
-  );
-
-  if (!linhas.length) {
+  if (!lotes.length) {
     container.innerHTML =
       '<div class="tela2-empty">' +
-      'Nenhum registro dos lotes 2, 5 ou 6 foi encontrado na aba CONTRATOS.' +
+      'Nenhum dado dos lotes 2, 5 ou 6 foi encontrado.' +
       '</div>';
     return;
   }
 
   container.innerHTML = '';
 
-  linhas.forEach(function(item) {
-
+  lotes.forEach(function(lote) {
     const row = document.createElement('div');
 
-    row.className =
-      'tela2-row tela2-data-row';
-
-    const valorSESI =
-      item.cliente === 'SESI'
-        ? item.saldo
-        : 0;
-
-    const valorSENAI =
-      item.cliente === 'SENAI'
-        ? item.saldo
-        : 0;
+    row.className = 'tela2-row tela2-data-row';
 
     row.innerHTML =
       '<div class="tela2-lote">' +
-        escapeHtml(item.lote) +
+        escapeHtml(lote.lote) +
       '</div>' +
 
       '<div class="tela2-contrato">' +
-        escapeHtml(item.contratoNome) +
+        escapeHtml(lote.contratoNome || 'SESI / SENAI') +
       '</div>' +
 
       '<div class="tela2-valor tela2-sesi" data-final="' +
-        valorSESI +
-      '">' +
-        'R$ 0,00' +
-      '</div>' +
+        lote.sesi +
+      '">R$ 0,00</div>' +
 
       '<div class="tela2-valor tela2-senai" data-final="' +
-        valorSENAI +
-      '">' +
-        'R$ 0,00' +
-      '</div>';
+        lote.senai +
+      '">R$ 0,00</div>';
 
     container.appendChild(row);
   });
@@ -4851,7 +4552,7 @@ function atualizarTela2(dados) {
 
   if ($('screen2Base')) {
     $('screen2Base').textContent =
-      'Fonte: ABA CONTRATOS • Base: ' +
+      'Base: ' +
       (
         dados.base ||
         'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5'
@@ -4859,8 +4560,7 @@ function atualizarTela2(dados) {
   }
 
   if ($('screen2Atualizacao')) {
-    $('screen2Atualizacao').textContent =
-      textoAtualizacao(dados);
+    $('screen2Atualizacao').textContent = textoAtualizacao(dados);
   }
 }
 
