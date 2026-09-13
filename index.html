@@ -2499,199 +2499,223 @@ html, body {
 <script>
 
 function atualizarTela4(dados) {
+  if (!dados) return;
 
-  if (!dados || !dados.tela4) {
+  function numero(v) {
+    if (v === null || v === undefined || v === '') return 0;
+    if (typeof v === 'number') return isFinite(v) ? v : 0;
 
-    console.warn(
-      'Tela 4: dados.tela4 não encontrados.'
-    );
+    let s = String(v)
+      .trim()
+      .replace(/R\$/gi, '')
+      .replace(/\s/g, '');
 
-    return;
+    if (s.indexOf(',') >= 0) {
+      s = s.replace(/\./g, '').replace(',', '.');
+    } else {
+      s = s.replace(/[^\d.-]/g, '');
+    }
+
+    const n = parseFloat(s);
+    return isFinite(n) ? n : 0;
   }
 
+  function campo(obj, nomes) {
+    if (!obj || typeof obj !== 'object') return null;
 
-  const tela4 =
-    dados.tela4;
+    for (let i = 0; i < nomes.length; i++) {
+      if (Object.prototype.hasOwnProperty.call(obj, nomes[i])) {
+        const v = obj[nomes[i]];
+        if (v !== null && v !== undefined && String(v).trim() !== '') {
+          return v;
+        }
+      }
+    }
 
+    return null;
+  }
+
+  /*
+   * Se a API fornecer tela4, usamos exatamente essa informação.
+   * A API atual, porém, trabalha principalmente com contratos.
+   */
+  let tela4 = dados.tela4;
+
+  if (!tela4) {
+
+    const registros =
+      Array.isArray(dados.contratos)
+        ? dados.contratos
+        : [];
+
+    let sesi = 0;
+    let senai = 0;
+
+    registros.forEach(function(item) {
+
+      if (!item || typeof item !== 'object') return;
+
+      const cliente =
+        String(
+          campo(item, [
+            'cliente',
+            'CLIENTE',
+            'Cliente'
+          ]) || ''
+        )
+        .trim()
+        .toUpperCase();
+
+      const saldo =
+        numero(
+          campo(item, [
+            'saldo',
+            'SALDO',
+            'Saldo',
+            'saldoContrato',
+            'valorSaldo',
+            'valor_saldo'
+          ])
+        );
+
+      if (cliente.indexOf('SESI') !== -1) {
+        sesi += saldo;
+      }
+
+      if (cliente.indexOf('SENAI') !== -1) {
+        senai += saldo;
+      }
+    });
+
+    const total =
+      sesi + senai;
+
+    tela4 = {
+      sesi: sesi,
+      senai: senai,
+      saldoTotal: total,
+      total: total,
+      percentualSESI:
+        total > 0
+          ? (sesi / total) * 100
+          : 0,
+      percentualSENAI:
+        total > 0
+          ? (senai / total) * 100
+          : 0,
+      lotes: ['2', '5', '6']
+    };
+
+    console.log(
+      'SALDO GITHUB — TELA 04 — dados calculados:',
+      tela4
+    );
+  }
 
   const sesi =
-    numeroSeguro(tela4.sesi);
-
+    numero(tela4.sesi);
 
   const senai =
-    numeroSeguro(tela4.senai);
+    numero(tela4.senai);
 
-
-  const saldoTotal =
-    numeroSeguro(
+  const total =
+    numero(
       tela4.saldoTotal ||
       tela4.total
     );
 
+  let percentualSESI =
+    numero(tela4.percentualSESI);
 
-  const percentualSESI =
-    numeroSeguro(
-      tela4.percentualSESI
-    );
+  let percentualSENAI =
+    numero(tela4.percentualSENAI);
 
+  if (
+    percentualSESI === 0 &&
+    percentualSENAI === 0 &&
+    total > 0
+  ) {
+    percentualSESI =
+      (sesi / total) * 100;
 
-  const percentualSENAI =
-    numeroSeguro(
-      tela4.percentualSENAI
-    );
-
-
-  /* ==========================================================
-     VALORES
-     ========================================================== */
+    percentualSENAI =
+      (senai / total) * 100;
+  }
 
   if ($('tela4ValorSESI')) {
-
     $('tela4ValorSESI').textContent =
       moeda(sesi);
-
   }
-
 
   if ($('tela4ValorSENAI')) {
-
     $('tela4ValorSENAI').textContent =
       moeda(senai);
-
   }
-
 
   if ($('tela4SaldoTotal')) {
-
     $('tela4SaldoTotal').textContent =
-      moeda(saldoTotal);
-
+      moeda(total);
   }
-
-
-  /* ==========================================================
-     PERCENTUAIS
-     ========================================================== */
 
   if ($('tela4PercentualSESI')) {
-
     $('tela4PercentualSESI').textContent =
       percentual(percentualSESI);
-
   }
-
 
   if ($('tela4PercentualSENAI')) {
-
     $('tela4PercentualSENAI').textContent =
       percentual(percentualSENAI);
-
   }
-
-
-  /* ==========================================================
-     LOTES
-     ========================================================== */
 
   if ($('tela4Lotes')) {
-
-    if (
-      Array.isArray(tela4.lotes) &&
-      tela4.lotes.length
-    ) {
-
-      $('tela4Lotes').textContent =
-        'LOTES ' +
-        tela4.lotes.join(' • ');
-
-    }
-
+    $('tela4Lotes').textContent =
+      'LOTES 2 • 5 • 6';
   }
-
-
-  /* ==========================================================
-     DATA DE ATUALIZAÇÃO
-     ========================================================== */
 
   if ($('tela4Atualizacao')) {
-
     $('tela4Atualizacao').textContent =
       textoAtualizacao(dados);
-
   }
-
-
-  /* ==========================================================
-     BARRAS
-     ========================================================== */
 
   const barraSESI =
     $('tela4BarraSESI');
 
-
   const barraSENAI =
     $('tela4BarraSENAI');
 
-
   if (barraSESI) {
-
-    barraSESI.style.width =
-      '0%';
-
+    barraSESI.style.width = '0%';
   }
-
 
   if (barraSENAI) {
-
-    barraSENAI.style.width =
-      '0%';
-
+    barraSENAI.style.width = '0%';
   }
-
 
   setTimeout(function() {
 
     if (barraSESI) {
-
       barraSESI.style.width =
-        Math.min(
-          100,
-          Math.max(
-            0,
+        Math.max(
+          0,
+          Math.min(
+            100,
             percentualSESI
           )
         ) + '%';
-
     }
 
-
     if (barraSENAI) {
-
       barraSENAI.style.width =
-        Math.min(
-          100,
-          Math.max(
-            0,
+        Math.max(
+          0,
+          Math.min(
+            100,
             percentualSENAI
           )
         ) + '%';
-
     }
 
-  }, 150);
-
-
-  console.log(
-    'TELA 04:',
-    {
-      SESI: sesi,
-      SENAI: senai,
-      saldoTotal: saldoTotal,
-      percentualSESI: percentualSESI,
-      percentualSENAI: percentualSENAI
-    }
-  );
-
+  }, 80);
 }
 
 </script>
@@ -2831,7 +2855,7 @@ function carregarDashboard() {
 
   /*
    * O INDEX ESTÁ HOSPEDADO NO GITHUB PAGES.
-   * Portanto não existe google.script.run neste ambiente.
+   * Portanto não existe google.script.run (INDISPONIVEL NO GITHUB) neste ambiente.
    *
    * Usamos JSONP porque o Apps Script fornece a API em outro
    * domínio e o carregamento por <script> permite a chamada
@@ -4011,18 +4035,245 @@ function testarTela5() {
 }
 
 
-function carregarTela5(){
+function carregarTela5() {
+
   /*
-   * A API JSONP atual entrega obterDadosDashboard().
-   * Se futuramente o backend também devolver tela5, usamos
-   * diretamente os dados recebidos, sem google.script.run.
+   * No GitHub Pages não existe google.script.run (INDISPONIVEL NO GITHUB).
    *
-   * Não fazemos uma segunda chamada desnecessária ao Apps Script.
+   * A chamada JSONP já trouxe os mesmos dados do Dashboard
+   * para dashboardDados. Portanto a Tela 5 usa diretamente
+   * dados.contratos.
    */
-  if (dashboardDados && dashboardDados.tela5) {
-    window.__dadosTela5 = dashboardDados.tela5;
-    atualizarTela5(window.__dadosTela5);
+
+  const dados =
+    dashboardDados ||
+    window.__dashboardDados;
+
+  if (!dados) {
+    console.warn(
+      'SALDO GITHUB — Tela 5: dados ainda não carregados.'
+    );
+    return;
   }
+
+  const registros =
+    Array.isArray(dados.contratos)
+      ? dados.contratos
+      : [];
+
+  let verde = 0;
+  let amarelo = 0;
+  let vermelho = 0;
+  let naoClassificado = 0;
+
+  const mapaLotes = {};
+
+  function normalizar(valor) {
+    return String(
+      valor === null ||
+      valor === undefined
+        ? ''
+        : valor
+    )
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toUpperCase();
+  }
+
+  function obterLote(item) {
+
+    const valor =
+      item &&
+      (
+        item.lote ??
+        item.LOTE ??
+        item.Lote ??
+        item.numeroLote ??
+        item.numero
+      );
+
+    const m =
+      String(
+        valor === null ||
+        valor === undefined
+          ? ''
+          : valor
+      ).match(/\d+/);
+
+    return m ? m[0] : '';
+  }
+
+  function obterFarol(item) {
+
+    if (!item || typeof item !== 'object') {
+      return '';
+    }
+
+    return String(
+      item.farol ??
+      item.FAROL ??
+      item.Farol ??
+      item.status ??
+      item.situacao ??
+      ''
+    ).trim();
+  }
+
+  function classificar(item) {
+
+    const original =
+      obterFarol(item);
+
+    const n =
+      normalizar(original);
+
+    if (
+      n.indexOf('VERDE') !== -1 ||
+      original.indexOf('🟢') !== -1
+    ) {
+      return 'VERDE';
+    }
+
+    if (
+      n.indexOf('AMARELO') !== -1 ||
+      n.indexOf('AMARELA') !== -1 ||
+      original.indexOf('🟡') !== -1
+    ) {
+      return 'AMARELO';
+    }
+
+    if (
+      n.indexOf('VERMELHO') !== -1 ||
+      n.indexOf('VERMELHA') !== -1 ||
+      original.indexOf('🔴') !== -1
+    ) {
+      return 'VERMELHO';
+    }
+
+    return 'NAO_CLASSIFICADO';
+  }
+
+  registros.forEach(function(item) {
+
+    const categoria =
+      classificar(item);
+
+    if (categoria === 'VERDE') {
+      verde++;
+    }
+    else if (categoria === 'AMARELO') {
+      amarelo++;
+    }
+    else if (categoria === 'VERMELHO') {
+      vermelho++;
+    }
+    else {
+      naoClassificado++;
+    }
+
+    const lote =
+      obterLote(item);
+
+    if (!lote) return;
+
+    if (!mapaLotes[lote]) {
+      mapaLotes[lote] = {
+        lote: lote,
+        verde: 0,
+        amarelo: 0,
+        vermelho: 0,
+        naoClassificado: 0,
+        total: 0
+      };
+    }
+
+    mapaLotes[lote].total++;
+
+    if (categoria === 'VERDE') {
+      mapaLotes[lote].verde++;
+    }
+    else if (categoria === 'AMARELO') {
+      mapaLotes[lote].amarelo++;
+    }
+    else if (categoria === 'VERMELHO') {
+      mapaLotes[lote].vermelho++;
+    }
+    else {
+      mapaLotes[lote].naoClassificado++;
+    }
+  });
+
+  const total =
+    verde +
+    amarelo +
+    vermelho +
+    naoClassificado;
+
+  const resultado = {
+
+    quantidadeVerde:
+      verde,
+
+    quantidadeAmarelo:
+      amarelo,
+
+    quantidadeVermelho:
+      vermelho,
+
+    quantidadeNaoClassificado:
+      naoClassificado,
+
+    percentualVerde:
+      total > 0
+        ? (verde / total) * 100
+        : 0,
+
+    percentualAmarelo:
+      total > 0
+        ? (amarelo / total) * 100
+        : 0,
+
+    percentualVermelho:
+      total > 0
+        ? (vermelho / total) * 100
+        : 0,
+
+    percentualNaoClassificado:
+      total > 0
+        ? (naoClassificado / total) * 100
+        : 0,
+
+    base:
+      dados.base ||
+      'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5',
+
+    atualizacao:
+      dados.atualizadoEm ||
+      dados.atualizacao ||
+      '--',
+
+    lotes:
+      Object.keys(mapaLotes)
+        .sort(function(a, b) {
+          return Number(a) - Number(b);
+        })
+        .map(function(chave) {
+          return mapaLotes[chave];
+        })
+  };
+
+  window.__dadosTela5 =
+    resultado;
+
+  console.log(
+    'SALDO GITHUB — TELA 05:',
+    resultado
+  );
+
+  atualizarTela5(
+    resultado
+  );
 }
 function contarTela5(el,valor){
   if(!el)return; var fim=Number(valor)||0,inicio=performance.now();
@@ -4117,23 +4368,25 @@ function atualizarTela1(dados) {
 
 
 function atualizarTela2(dados) {
-
   const container = $('screen2Rows');
   if (!container) return;
 
-  console.log('TELA 02 - dados recebidos:', dados);
-
-  const ordemLotes = ['2', '5', '6'];
+  /*
+   * RELATÓRIO 2 — FONTE:
+   * ABA CONTRATOS
+   *
+   * O Apps Script envia os registros da aba CONTRATOS
+   * dentro de dados.contratos.
+   *
+   * Não agrupamos por lote.
+   * Cada contrato permanece como uma linha individual.
+   */
 
   function valorFinanceiro(valor) {
     if (valor === null || valor === undefined || valor === '') return 0;
+    if (typeof valor === 'number') return isFinite(valor) ? valor : 0;
 
-    if (typeof valor === 'number') {
-      return isFinite(valor) ? valor : 0;
-    }
-
-    let texto = String(valor)
-      .trim()
+    let texto = String(valor).trim()
       .replace(/R\$/gi, '')
       .replace(/\s/g, '');
 
@@ -4145,25 +4398,18 @@ function atualizarTela2(dados) {
       texto = texto.replace(/[^\d.-]/g, '');
     }
 
-    const numero = parseFloat(texto);
-    return isFinite(numero) ? numero : 0;
+    const n = parseFloat(texto);
+    return isFinite(n) ? n : 0;
   }
 
-  function pegarCampo(objeto, nomes) {
-    if (!objeto || typeof objeto !== 'object') return null;
+  function campo(obj, nomes) {
+    if (!obj || typeof obj !== 'object') return null;
 
     for (let i = 0; i < nomes.length; i++) {
-      const nome = nomes[i];
-
-      if (Object.prototype.hasOwnProperty.call(objeto, nome)) {
-        const valor = objeto[nome];
-
-        if (
-          valor !== null &&
-          valor !== undefined &&
-          String(valor).trim() !== ''
-        ) {
-          return valor;
+      if (Object.prototype.hasOwnProperty.call(obj, nomes[i])) {
+        const v = obj[nomes[i]];
+        if (v !== null && v !== undefined && String(v).trim() !== '') {
+          return v;
         }
       }
     }
@@ -4172,145 +4418,146 @@ function atualizarTela2(dados) {
   }
 
   function numeroLote(item) {
-    const valor = pegarCampo(item, [
-      'lote',
-      'LOTE',
-      'Lote',
-      'numeroLote',
-      'numero',
-      'loteNumero'
+    const v = campo(item, [
+      'lote', 'LOTE', 'Lote', 'numeroLote', 'numero', 'loteNumero'
     ]);
 
+    const m = String(v == null ? '' : v).match(/\d+/);
+    return m ? m[0] : '';
+  }
+
+  function cliente(item) {
     return String(
-      valor === null || valor === undefined ? '' : valor
-    ).replace(/[^0-9]/g, '');
+      campo(item, ['cliente', 'CLIENTE', 'Cliente']) || ''
+    ).trim().toUpperCase();
   }
 
-  function nomeContrato(item) {
-    const valor = pegarCampo(item, [
-      'contratoNome',
-      'contrato',
-      'CONTRATO',
-      'cliente',
-      'CLIENTE',
-      'descricao'
-    ]);
-
-    return (
-      valor === null ||
-      valor === undefined ||
-      String(valor).trim() === ''
-    )
-      ? 'SESI / SENAI'
-      : String(valor);
+  function contrato(item) {
+    return String(
+      campo(item, [
+        'contrato',
+        'CONTRATO',
+        'Contrato',
+        'contratoNome',
+        'descricao'
+      ]) || ''
+    ).trim();
   }
 
-  function valorSESI(item) {
-    const valor = pegarCampo(item, [
-      'sesi',
-      'SESI',
-      'Sesi',
-      'valorSESI',
-      'valorSesi',
-      'saldoSESI',
-      'saldoSesi',
-      'saldoSesiContrato',
-      'sesiSaldo'
-    ]);
-
-    return valorFinanceiro(valor);
+  function saldo(item) {
+    return valorFinanceiro(
+      campo(item, [
+        'saldo',
+        'SALDO',
+        'Saldo',
+        'saldoContrato',
+        'valorSaldo',
+        'valor_saldo'
+      ])
+    );
   }
 
-  function valorSENAI(item) {
-    const valor = pegarCampo(item, [
-      'senai',
-      'SENAI',
-      'Senai',
-      'valorSENAI',
-      'valorSenai',
-      'saldoSENAI',
-      'saldoSenai',
-      'saldoSenaiContrato',
-      'senaiSaldo'
-    ]);
+  const registros =
+    dados && Array.isArray(dados.contratos)
+      ? dados.contratos
+      : [];
 
-    return valorFinanceiro(valor);
-  }
+  const ordem = {
+    '2|SENAI': 1,
+    '5|SENAI': 2,
+    '6|SENAI': 3,
+    '2|SESI': 4,
+    '5|SESI': 5,
+    '6|SESI': 6
+  };
 
-  /*
-   * O Code.gs já entrega os dados finais em dados.lotes.
-   * A Tela 02 usa essa estrutura diretamente.
-   */
-  let lista = [];
+  const linhas = [];
 
-  if (dados && Array.isArray(dados.lotes)) {
-    lista = dados.lotes;
-  } else if (dados && Array.isArray(dados.contratos)) {
-    lista = dados.contratos;
-  } else if (dados && Array.isArray(dados.resultadoTela2)) {
-    lista = dados.resultadoTela2;
-  } else if (dados && Array.isArray(dados.tela2)) {
-    lista = dados.tela2;
-  }
-
-  const mapa = {};
-
-  lista.forEach(function(item) {
+  registros.forEach(function(item) {
     if (!item || typeof item !== 'object') return;
 
     const lote = numeroLote(item);
+    const cli = cliente(item);
 
-    if (ordemLotes.indexOf(lote) === -1) return;
+    if (['2', '5', '6'].indexOf(lote) === -1) return;
 
-    mapa[lote] = {
+    if (
+      cli.indexOf('SESI') === -1 &&
+      cli.indexOf('SENAI') === -1
+    ) {
+      return;
+    }
+
+    const tipo =
+      cli.indexOf('SENAI') !== -1
+        ? 'SENAI'
+        : 'SESI';
+
+    linhas.push({
       lote: lote,
-      contratoNome: nomeContrato(item),
-      sesi: valorSESI(item),
-      senai: valorSENAI(item)
-    };
+      cliente: tipo,
+      contratoNome: contrato(item) || tipo,
+      saldo: saldo(item),
+      ordem: ordem[lote + '|' + tipo] || 99
+    });
   });
 
-  const lotes = ordemLotes
-    .filter(function(numero) {
-      return !!mapa[numero];
-    })
-    .map(function(numero) {
-      return mapa[numero];
-    });
+  linhas.sort(function(a, b) {
+    return a.ordem - b.ordem;
+  });
 
-  console.log('TELA 02 - lotes finais:', lotes);
+  console.log(
+    'SALDO GITHUB — TELA 02 — CONTRATOS:',
+    linhas
+  );
 
-  if (!lotes.length) {
+  if (!linhas.length) {
     container.innerHTML =
       '<div class="tela2-empty">' +
-      'Nenhum dado dos lotes 2, 5 ou 6 foi encontrado.' +
+      'Nenhum registro dos lotes 2, 5 ou 6 foi encontrado na aba CONTRATOS.' +
       '</div>';
     return;
   }
 
   container.innerHTML = '';
 
-  lotes.forEach(function(lote) {
+  linhas.forEach(function(item) {
+
     const row = document.createElement('div');
 
-    row.className = 'tela2-row tela2-data-row';
+    row.className =
+      'tela2-row tela2-data-row';
+
+    const valorSESI =
+      item.cliente === 'SESI'
+        ? item.saldo
+        : 0;
+
+    const valorSENAI =
+      item.cliente === 'SENAI'
+        ? item.saldo
+        : 0;
 
     row.innerHTML =
       '<div class="tela2-lote">' +
-        escapeHtml(lote.lote) +
+        escapeHtml(item.lote) +
       '</div>' +
 
       '<div class="tela2-contrato">' +
-        escapeHtml(lote.contratoNome || 'SESI / SENAI') +
+        escapeHtml(item.contratoNome) +
       '</div>' +
 
       '<div class="tela2-valor tela2-sesi" data-final="' +
-        lote.sesi +
-      '">R$ 0,00</div>' +
+        valorSESI +
+      '">' +
+        'R$ 0,00' +
+      '</div>' +
 
       '<div class="tela2-valor tela2-senai" data-final="' +
-        lote.senai +
-      '">R$ 0,00</div>';
+        valorSENAI +
+      '">' +
+        'R$ 0,00' +
+      '</div>';
 
     container.appendChild(row);
   });
@@ -4319,7 +4566,7 @@ function atualizarTela2(dados) {
 
   if ($('screen2Base')) {
     $('screen2Base').textContent =
-      'Base: ' +
+      'Fonte: ABA CONTRATOS • Base: ' +
       (
         dados.base ||
         'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5'
@@ -4327,7 +4574,8 @@ function atualizarTela2(dados) {
   }
 
   if ($('screen2Atualizacao')) {
-    $('screen2Atualizacao').textContent = textoAtualizacao(dados);
+    $('screen2Atualizacao').textContent =
+      textoAtualizacao(dados);
   }
 }
 
