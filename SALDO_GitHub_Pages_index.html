@@ -1,0 +1,2996 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Dashboard - Saldo Contratos</title>
+
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+  background:#f4f6f8;
+  color:#172033;
+}
+
+
+body{
+  padding:24px 30px 30px;
+}
+
+
+.container{
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+
+.topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:22px;
+}
+
+
+.titulo-area h1{
+  margin:0;
+  font-size:30px;
+  font-weight:700;
+  color:#102a43;
+}
+
+
+.titulo-area p{
+  margin:6px 0 0;
+  font-size:14px;
+  color:#64748b;
+}
+
+
+.atualizacao{
+  text-align:right;
+  font-size:12px;
+  color:#64748b;
+}
+
+
+.atualizacao strong{
+  display:block;
+  margin-top:3px;
+  font-size:13px;
+  color:#1e293b;
+}
+
+
+/* ============================================================
+   KPIs
+   ============================================================ */
+
+.kpis{
+  display:grid;
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+  gap:16px;
+  margin-bottom:20px;
+}
+
+
+.kpi{
+  background:#fff;
+  border:1px solid #dce2e8;
+  border-radius:11px;
+  padding:20px 20px 17px;
+  min-height:105px;
+}
+
+
+.kpi-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+
+.kpi-value{
+  font-size:25px;
+  font-weight:700;
+  color:#111827;
+  line-height:1.1;
+}
+
+
+.kpi-sub{
+  margin-top:6px;
+  font-size:11px;
+  color:#94a3b8;
+}
+
+
+.kpi.exec .kpi-value{
+  color:#0f766e;
+}
+
+
+/* ============================================================
+   GRID PRINCIPAL
+   ============================================================ */
+
+.grid-principal{
+  display:grid;
+  grid-template-columns:
+    minmax(0,2fr)
+    minmax(350px,1fr);
+  gap:20px;
+}
+
+
+.card{
+  background:#fff;
+  border:1px solid #dce2e8;
+  border-radius:11px;
+  overflow:hidden;
+}
+
+
+.card-header{
+  padding:18px 20px;
+  border-bottom:1px solid #edf0f3;
+}
+
+
+.card-header h2{
+  margin:0;
+  font-size:15px;
+  color:#102a43;
+}
+
+
+.card-body{
+  padding:18px 20px;
+}
+
+
+/* ============================================================
+   GRÁFICO
+   ============================================================ */
+
+.chart-box{
+  width:100%;
+  height:370px;
+  position:relative;
+}
+
+
+#graficoFinanceiro{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+
+.chart-loading{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#94a3b8;
+  font-size:13px;
+  pointer-events:none;
+}
+
+
+.chart-loading.hidden{
+  display:none;
+}
+
+
+/* ============================================================
+   SITUAÇÃO
+   ============================================================ */
+
+.situacoes{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+
+.situacao{
+  background:#f8fafc;
+  border-radius:9px;
+  padding:15px 8px;
+  text-align:center;
+}
+
+
+.bolinha{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  margin:0 auto 8px;
+}
+
+
+.normal .bolinha{
+  background:#16a34a;
+}
+
+
+.atencao .bolinha{
+  background:#eab308;
+}
+
+
+.critico .bolinha{
+  background:#dc2626;
+}
+
+
+.situacao-numero{
+  font-size:22px;
+  font-weight:700;
+  color:#0f172a;
+}
+
+
+.situacao-texto{
+  margin-top:5px;
+  font-size:9px;
+  color:#64748b;
+}
+
+
+/* ============================================================
+   LISTA DE LOTES
+   ============================================================ */
+
+.lista-lotes{
+  border-top:1px solid #edf0f3;
+}
+
+
+.lote-item{
+  display:grid;
+  grid-template-columns:
+    14px
+    1fr
+    auto;
+  gap:10px;
+  align-items:center;
+  padding:12px 4px;
+  border-bottom:1px solid #edf0f3;
+}
+
+
+.lote-ponto{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+}
+
+
+.lote-nome{
+  font-size:12px;
+  color:#1e293b;
+}
+
+
+.lote-percentual{
+  font-size:12px;
+  font-weight:700;
+  color:#0f172a;
+}
+
+
+.lote-normal{
+  background:#16a34a;
+}
+
+
+.lote-atencao{
+  background:#eab308;
+}
+
+
+.lote-critico{
+  background:#dc2626;
+}
+
+
+/* ============================================================
+   RODAPÉ DO PAINEL
+   ============================================================ */
+
+.base-info{
+  margin-top:14px;
+  padding:10px 12px;
+  border-radius:7px;
+  background:#f8fafc;
+  font-size:10px;
+  color:#64748b;
+  word-break:break-word;
+}
+
+
+.status{
+  margin-top:10px;
+  font-size:11px;
+  color:#64748b;
+}
+
+
+.status.erro{
+  color:#b91c1c;
+}
+
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+
+@media(max-width:1000px){
+
+  .kpis{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .grid-principal{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:600px){
+
+  body{
+    padding:15px;
+  }
+
+  .topo{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .atualizacao{
+    text-align:left;
+  }
+
+  .kpis{
+    grid-template-columns:1fr;
+  }
+
+  .chart-box{
+    height:300px;
+  }
+
+}
+
+</style>
+
+
+<style id="estiloTresTelas">
+  .tela-dashboard {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .tela-dashboard.tela-ativa {
+    display: block;
+    animation: entradaDashboard .8s ease both;
+  }
+
+  @keyframes entradaDashboard {
+    from { opacity: 0; transform: translateX(18px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .screen-shell {
+    width: min(1500px, calc(100vw - 56px));
+    min-height: calc(100vh - 56px);
+    margin: 28px auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .screen-kicker {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+
+  .screen-header h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.1;
+  }
+
+  .screen-subtitle {
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .screen-badge {
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .status-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .status-card {
+    position: relative;
+    min-height: 190px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+    padding: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 26px rgba(15,23,42,.06);
+    overflow: hidden;
+  }
+
+  .status-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+  }
+
+  .status-card.normal::after { background: #16a34a; }
+  .status-card.atencao::after { background: #f59e0b; }
+  .status-card.critico::after { background: #dc2626; }
+
+  .status-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 900;
+    margin-bottom: 16px;
+  }
+
+  .normal .status-icon {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+
+  .atencao .status-icon {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .critico .status-icon {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .status-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #64748b;
+  }
+
+  .status-value {
+    margin-top: 3px;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+    color: #0f172a;
+  }
+
+  .status-caption {
+    margin-top: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  .status-panel,
+  .table-panel {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 8px 26px rgba(15,23,42,.06);
+  }
+
+  .status-panel {
+    padding: 26px;
+    flex: 1;
+  }
+
+  .panel-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 26px;
+  }
+
+  .distribution-track {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f1f5f9;
+  }
+
+  .distribution-track > div {
+    width: 0;
+    transition: width .7s ease;
+  }
+
+  .distribution-normal { background: #16a34a; }
+  .distribution-atencao { background: #f59e0b; }
+  .distribution-critico { background: #dc2626; }
+
+  .distribution-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 22px;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .distribution-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .normal-dot { background: #16a34a; }
+  .atencao-dot { background: #f59e0b; }
+  .critico-dot { background: #dc2626; }
+
+  .table-panel {
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .lotes-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .lotes-table th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .7px;
+    padding: 16px 18px;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .lotes-table th:first-child,
+  .lotes-table td:first-child {
+    text-align: left;
+  }
+
+  .lotes-table td {
+    padding: 18px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+    border-bottom: 1px solid #eef2f7;
+  }
+
+  .lotes-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .screen3-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .screen3-summary > div {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 15px 18px;
+    box-shadow: 0 6px 20px rgba(15,23,42,.05);
+  }
+
+  .screen3-summary span {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+
+  .screen3-summary strong {
+    display: block;
+    color: #0f172a;
+    font-size: 17px;
+  }
+
+  .screen-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 16px;
+    color: #94a3b8;
+    font-size: 10px;
+  }
+
+  #indicadorTelas {
+    position: fixed;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 7px;
+    z-index: 10000;
+  }
+
+  .ponto-tela {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: all .3s ease;
+  }
+
+  .ponto-tela.ativo {
+    width: 22px;
+    border-radius: 8px;
+    background: #2563eb;
+  }
+
+  @media (max-width: 900px) {
+    .status-cards,
+    .screen3-summary {
+      grid-template-columns: 1fr;
+    }
+
+    .screen-header {
+      flex-direction: column;
+    }
+
+    .lotes-table {
+      font-size: 11px;
+    }
+
+    .lotes-table th,
+    .lotes-table td {
+      padding: 10px 8px;
+    }
+  }
+</style>
+
+
+<style id="correcaoTelasMonitor">
+  html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    overflow: hidden !important;
+  }
+
+  .tela-dashboard {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    display: none !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 1;
+  }
+
+  .tela-dashboard.tela-ativa {
+    display: block !important;
+    z-index: 2;
+  }
+
+  .tela-dashboard > .screen-shell {
+    width: min(1500px, calc(100vw - 56px));
+    height: calc(100vh - 56px);
+    min-height: 0;
+    margin: 28px auto;
+    box-sizing: border-box;
+  }
+
+  .screen-shell {
+    overflow: hidden;
+  }
+
+  /* Tela 1: o conteúdo original precisa ocupar somente a tela */
+  .tela-dashboard[data-tela="0"] {
+    overflow: hidden !important;
+  }
+
+  .tela-dashboard[data-tela="0"] > * {
+    box-sizing: border-box;
+  }
+
+  /* Indicador fica por cima das telas */
+  #indicadorTelas {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 12px !important;
+    transform: translateX(-50%) !important;
+    z-index: 99999 !important;
+  }
+</style>
+
+
+<style id="correcaoDefinitivaTelas">
+html, body {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.tela-dashboard.tela-ativa {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 10 !important;
+}
+
+.tela-dashboard:not(.tela-ativa),
+.tela-dashboard:not(.tela-ativa) * {
+  visibility: hidden !important;
+}
+
+.tela-dashboard.tela-ativa * {
+  visibility: visible;
+}
+
+.screen1-stage {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.screen1-stage > .container {
+  width: calc(100vw - 56px) !important;
+  max-width: 1400px !important;
+  height: calc(100vh - 56px) !important;
+  min-height: 0 !important;
+  margin: 28px auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.tela-dashboard[data-tela="1"] .screen-shell,
+.tela-dashboard[data-tela="2"] .screen-shell {
+  width: min(1500px, calc(100vw - 56px)) !important;
+  height: calc(100vh - 56px) !important;
+  min-height: 0 !important;
+  margin: 28px auto !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+#indicadorTelas {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 12px !important;
+  transform: translateX(-50%) !important;
+  z-index: 999999 !important;
+}
+</style>
+
+<style id="graficoAnimadoTela3">
+.grafico-lotes-panel{flex:1;min-height:0;background:#fff;border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 8px 26px rgba(15,23,42,.06);padding:24px 28px 20px;box-sizing:border-box;overflow:hidden}
+.grafico-lotes-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}
+.panel-caption{margin-top:5px;color:#94a3b8;font-size:11px}
+.legenda-grafico-lotes{display:flex;align-items:center;gap:18px;flex-wrap:wrap;color:#64748b;font-size:11px;white-space:nowrap}
+.legenda-grafico-lotes span{display:inline-flex;align-items:center;gap:6px}
+.legenda{width:9px;height:9px;border-radius:50%;display:inline-block}
+.legenda.contratado{background:#2563eb}.legenda.faturado{background:#16a34a}.legenda.saldo{background:#94a3b8}
+.grafico-lotes{height:calc(100% - 58px);min-height:270px;display:flex;flex-direction:column;justify-content:center;gap:18px;overflow:hidden}
+.grafico-lote{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:center}
+.grafico-lote-nome{font-size:14px;font-weight:800;color:#0f172a}
+.grafico-lote-barras{display:flex;flex-direction:column;gap:7px}
+.barra-linha{display:grid;grid-template-columns:88px 1fr 110px;align-items:center;gap:9px}
+.barra-label{font-size:10px;color:#64748b;text-align:right}
+.barra-trilho{height:18px;background:#f1f5f9;border-radius:7px;overflow:hidden}
+.barra-valor{height:100%;width:0;border-radius:7px;transition:none}
+.barra-valor.contratado{background:#2563eb}.barra-valor.faturado{background:#16a34a}.barra-valor.saldo{background:#94a3b8}
+.barra-numero{font-size:10px;font-weight:800;color:#334155;text-align:left}
+.grafico-lotes-loading{text-align:center;color:#94a3b8;font-size:13px}
+</style>
+
+<style id="separacaoLotesTela3">
+  .grafico-lotes-panel {
+    padding: 24px 28px 26px !important;
+  }
+
+  .grafico-lotes {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+    align-items: stretch !important;
+    height: calc(100% - 58px) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .grafico-lote {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 22px !important;
+    padding: 24px 20px !important;
+    background: #f8fafc !important;
+    border: 1px solid #dbe3ec !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    box-shadow: 0 6px 18px rgba(15,23,42,.05) !important;
+  }
+
+  .grafico-lote-nome {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .grafico-lote-barras {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    margin-top: 6px !important;
+  }
+
+  .barra-linha {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 7px !important;
+  }
+
+  .barra-label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    color: #475569 !important;
+  }
+
+  .barra-trilho {
+    width: 100% !important;
+    height: 24px !important;
+    border-radius: 8px !important;
+  }
+
+  .barra-valor {
+    height: 100% !important;
+    border-radius: 8px !important;
+  }
+
+  .barra-numero {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    text-align: right !important;
+    min-height: 18px !important;
+  }
+
+  @media (max-width: 1050px) {
+    .grafico-lotes {
+      grid-template-columns: 1fr !important;
+      overflow-y: auto !important;
+    }
+
+    .grafico-lote {
+      min-height: 210px !important;
+    }
+  }
+</style>
+
+
+<style id="tela2TabelaLotes">
+  .tela2-shell {
+    gap: 18px !important;
+  }
+
+  .tela2-table-panel {
+    flex: 1;
+    min-height: 0;
+    background: #fff;
+    border: 1px solid #dbe3ec;
+    border-radius: 18px;
+    box-shadow: 0 8px 26px rgba(15,23,42,.06);
+    padding: 24px 28px 28px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .tela2-title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: .2px;
+    margin: 0 0 20px;
+  }
+
+  .tela2-table {
+    width: 100%;
+    height: calc(100% - 52px);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tela2-row {
+    display: grid;
+    grid-template-columns: 1fr 2.1fr 1.2fr 1.2fr;
+    align-items: center;
+    min-height: 0;
+    flex: 1;
+    border-bottom: 1px solid #dbe3ec;
+  }
+
+  .tela2-row > div {
+    padding: 0 22px;
+    box-sizing: border-box;
+  }
+
+  .tela2-head {
+    flex: 0 0 68px;
+    min-height: 68px;
+    border-bottom: 2px solid #cbd5e1;
+    color: #147dcc;
+    font-size: 17px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .tela2-head > div:first-child {
+    text-align: center;
+  }
+
+  .tela2-data-row {
+    min-height: 115px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #111827;
+    background: #fff;
+    transition: background .2s ease;
+  }
+
+  .tela2-data-row:hover {
+    background: #f8fafc;
+  }
+
+  .tela2-data-row > div {
+    text-align: center;
+  }
+
+  .tela2-data-row .tela2-lote {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0f172a;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .tela2-data-row .tela2-contrato {
+    font-size: 21px;
+    font-weight: 800;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .tela2-data-row .tela2-valor {
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: .1px;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 8px;
+  }
+
+  .tela2-data-row .tela2-sesi {
+    color: #1d4ed8;
+    text-align: center;
+  }
+
+  .tela2-data-row .tela2-senai {
+    color: #0f766e;
+    text-align: center;
+  }
+
+  .tela2-loading,
+  .tela2-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 16px;
+  }
+
+  .tela2-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 72px;
+    padding: 15px 22px;
+    box-sizing: border-box;
+    background: #f8fafc;
+    border: 1px solid #dbe3ec;
+    border-radius: 14px;
+  }
+
+  .tela2-info-icon {
+    width: 34px;
+    height: 34px;
+    border: 2px solid #1597df;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1597df;
+    font-size: 22px;
+    font-weight: 800;
+    flex: 0 0 auto;
+  }
+
+  .tela2-info-main {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .tela2-info-sub {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  @media (max-width: 900px) {
+    .tela2-row {
+      grid-template-columns: .8fr 1.6fr 1fr 1fr;
+    }
+
+    .tela2-row > div {
+      padding: 0 10px;
+    }
+
+    .tela2-data-row .tela2-contrato {
+      padding-left: 10px;
+    }
+  }
+</style>
+
+
+<style id="ajusteTela2Final">
+  #screen2Rows {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #screen2Rows .tela2-data-row {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  @media (max-height: 700px) {
+    .tela2-title {
+      font-size: 21px !important;
+      margin-bottom: 10px !important;
+    }
+
+    .tela2-data-row {
+      min-height: 0 !important;
+    }
+
+    .tela2-data-row .tela2-lote {
+      font-size: 22px !important;
+    }
+
+    .tela2-data-row .tela2-valor {
+      font-size: 21px !important;
+    }
+
+    .tela2-data-row .tela2-contrato {
+      font-size: 19px !important;
+      text-align: center !important;
+    }
+  }
+</style>
+
+</head>
+<body>
+<div class="tela-dashboard" data-tela="0">
+  <div class="screen1-stage">
+<div class="container">
+
+
+  <!-- ========================================================
+       TOPO
+       ======================================================== -->
+
+  <div class="topo">
+
+    <div class="titulo-area">
+
+      <h1>
+        Visão Executiva
+      </h1>
+
+      <p>
+        Acompanhamento geral dos contratos
+      </p>
+
+    </div>
+
+
+    <div class="atualizacao">
+
+      Última atualização
+
+      <strong id="dataAtualizacao">
+        Carregando...
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================
+       KPIs
+       ======================================================== -->
+
+  <section class="kpis">
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Total contratado
+      </div>
+
+      <div
+        class="kpi-value"
+        id="totalContratado"
+      >
+        R$ 0,00
+      </div>
+
+      <div class="kpi-sub">
+        Todos os contratos
+      </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Total faturado
+      </div>
+
+      <div
+        class="kpi-value"
+        id="totalFaturado"
+      >
+        R$ 0,00
+      </div>
+
+      <div class="kpi-sub">
+        Valor acumulado
+      </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Saldo
+      </div>
+
+      <div
+        class="kpi-value"
+        id="totalSaldo"
+      >
+        R$ 0,00
+      </div>
+
+      <div class="kpi-sub">
+        Valor disponível
+      </div>
+
+    </div>
+
+
+    <div class="kpi exec">
+
+      <div class="kpi-label">
+        Execução
+      </div>
+
+      <div
+        class="kpi-value"
+        id="percentualExecucao"
+      >
+        0,00%
+      </div>
+
+      <div class="kpi-sub">
+        Percentual faturado
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- ========================================================
+       PRINCIPAL
+       ======================================================== -->
+
+  <section class="grid-principal">
+
+
+    <!-- ======================================================
+         GRÁFICO
+         ====================================================== -->
+
+    <div class="card">
+
+      <div class="card-header">
+
+        <h2>
+          Contratado × Faturado × Saldo
+        </h2>
+
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="chart-box">
+
+          <canvas
+            id="graficoFinanceiro"
+          ></canvas>
+
+          <div
+            id="chartLoading"
+            class="chart-loading"
+          >
+            Carregando gráfico...
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         SITUAÇÃO
+         ====================================================== -->
+
+    <div class="card">
+
+      <div class="card-header">
+
+        <h2>
+          Situação dos Projetos
+        </h2>
+
+      </div>
+
+
+      <div class="card-body">
+
+
+        <div class="situacoes">
+
+
+          <div class="situacao normal">
+
+            <div class="bolinha"></div>
+
+            <div
+              class="situacao-numero"
+              id="qtdNormal"
+            >
+              0
+            </div>
+
+            <div class="situacao-texto">
+              NORMAL
+            </div>
+
+          </div>
+
+
+          <div class="situacao atencao">
+
+            <div class="bolinha"></div>
+
+            <div
+              class="situacao-numero"
+              id="qtdAtencao"
+            >
+              0
+            </div>
+
+            <div class="situacao-texto">
+              ATENÇÃO
+            </div>
+
+          </div>
+
+
+          <div class="situacao critico">
+
+            <div class="bolinha"></div>
+
+            <div
+              class="situacao-numero"
+              id="qtdCritico"
+            >
+              0
+            </div>
+
+            <div class="situacao-texto">
+              CRÍTICO
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <div
+          id="listaLotes"
+          class="lista-lotes"
+        >
+        </div>
+
+
+        <div
+          id="baseInfo"
+          class="base-info"
+        >
+          Base: carregando...
+        </div>
+
+
+        <div
+          id="status"
+          class="status"
+        >
+          Carregando dados...
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+</div>
+</div>
+</div>
+
+<div class="tela-dashboard" data-tela="1">
+  <div class="screen-shell tela2-shell">
+    <div class="screen-header">
+      <div>
+        <div class="screen-kicker">DASHBOARD — SALDO CONTRATOS</div>
+        <h1>Situação dos Contratos</h1>
+        <div class="screen-subtitle">Distribuição dos contratos por Lote • SESI • SENAI</div>
+      </div>
+      <div class="screen-badge">TELA 02</div>
+    </div>
+
+    <div class="tela2-table-panel">
+      <div class="tela2-title">LOTE — CONTRATOS — SESI — SENAI</div>
+
+      <div class="tela2-table">
+        <div class="tela2-row tela2-head">
+          <div>LOTE</div>
+          <div>CONTRATOS</div>
+          <div>SESI</div>
+          <div>SENAI</div>
+        </div>
+
+        <div id="screen2Rows">
+          <div class="tela2-loading">Carregando dados da base...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tela2-info">
+      <div class="tela2-info-icon">i</div>
+      <div>
+        <div class="tela2-info-main">
+          Valores apresentados diretamente dos dados retornados da base XLSM.
+        </div>
+        <div class="tela2-info-sub">
+          A Tela 2 não utiliza dados do Dashboard - Obras e não cria planilha temporária.
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-footer">
+      <span id="screen2Base">Base: carregando...</span>
+      <span>Atualização: <b id="screen2Atualizacao">--</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="tela-dashboard" data-tela="2">
+  <div class="screen-shell">
+    <div class="screen-header">
+      <div>
+        <div class="screen-kicker">DASHBOARD — SALDO CONTRATOS</div>
+        <h1>Desempenho por Lote</h1>
+        <div class="screen-subtitle">Contratado × Faturado × Saldo</div>
+      </div>
+      <div class="screen-badge">TELA 03</div>
+    </div>
+
+    <div class="grafico-lotes-panel">
+      <div class="grafico-lotes-header">
+        <div>
+          <div class="panel-title">Desempenho financeiro dos lotes</div>
+          <div class="panel-caption">As barras começam em zero e são abastecidas até o resultado real.</div>
+        </div>
+        <div class="legenda-grafico-lotes">
+          <span><i class="legenda contratado"></i>Contratado</span>
+          <span><i class="legenda faturado"></i>Faturado</span>
+          <span><i class="legenda saldo"></i>Saldo</span>
+        </div>
+      </div>
+
+      
+<div id="graficoLotesAnimado" class="grafico-lotes">
+  <div class="grafico-lotes-loading">Preparando gráfico...</div>
+</div>
+    </div>
+
+    <div class="screen3-summary">
+      <div><span>Total contratado</span><strong id="screen3Contratado">R$ 0,00</strong></div>
+      <div><span>Total faturado</span><strong id="screen3Faturado">R$ 0,00</strong></div>
+      <div><span>Saldo</span><strong id="screen3Saldo">R$ 0,00</strong></div>
+      <div><span>Execução</span><strong id="screen3Execucao">0,00%</strong></div>
+    </div>
+
+    <div class="screen-footer">
+      <span id="screen3Base">Base: carregando...</span>
+      <span>Atualização: <b id="screen3Atualizacao">--</b></span>
+    </div>
+  </div>
+</div>
+<div id="indicadorTelas"></div>
+<script>
+/***************************************************************
+ * DASHBOARD - SALDO CONTRATOS
+ * 3 TELAS REAIS — 20 SEGUNDOS POR TELA
+ ***************************************************************/
+
+const TEMPO_TELA = 20000;
+const TEMPO_TRANSICAO = 800;
+
+let dashboardDados = null;
+let telaAtual = 0;
+
+const URL_CONTROLADOR =
+  'https://script.google.com/macros/s/AKfycby5VZR_ja8szmf8wjXql9zL0d_NrcmTJOkaDkIDVs9zI6nAH5Bs6gRB-DKfELQHXmtM/exec';
+
+const URL_API_SALDO =
+  'https://script.google.com/macros/s/AKfycbz3-96SeJvssR2W84jfJV8xOviS5xqloX6F7AWI6z4tDrlDXMjd71r7RyfbO6vR25eyoA/exec';
+
+/*
+ * MODO DE EXECUÇÃO
+ *
+ * URL normal:
+ *   .../exec
+ *   -> mostra SOMENTE os 3 relatórios
+ *   -> depois da Tela 03, PARA neste Dashboard
+ *
+ * URL usada pelo ciclo:
+ *   .../exec?modo=ciclo
+ *   -> mostra os 3 relatórios
+ *   -> depois da Tela 03, retorna ao Controlador V2
+ *
+ * Assim o teste direto do Index nunca dispara BMB3/Obras.
+ */
+const MODO_CICLO =
+  new URLSearchParams(window.location.search).get('modo') === 'ciclo';
+
+let timerTelas = null;
+let finalizandoSaldo = false;
+
+/***************************************************************
+ * UTILITÁRIOS
+ ***************************************************************/
+function $(id) {
+  return document.getElementById(id);
+}
+
+function numeroSeguro(valor) {
+  if (valor === null || valor === undefined || valor === '') return 0;
+
+  if (typeof valor === 'number') {
+    return isFinite(valor) ? valor : 0;
+  }
+
+  let texto = String(valor).trim()
+    .replace(/R\$/gi, '')
+    .replace(/\s/g, '');
+
+  if (!texto) return 0;
+
+  if (texto.endsWith('%')) {
+    texto = texto.replace('%', '').replace(/\./g, '').replace(',', '.');
+    return Number(texto) || 0;
+  }
+
+  if (texto.indexOf(',') !== -1) {
+    texto = texto.replace(/\./g, '').replace(',', '.');
+  }
+
+  const n = Number(texto);
+  return isFinite(n) ? n : 0;
+}
+
+function moeda(valor) {
+  return numeroSeguro(valor).toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function percentual(valor) {
+  return numeroSeguro(valor).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + '%';
+}
+
+function textoAtualizacao(dados) {
+  if (!dados) return '--';
+  if (dados.atualizadoEm) return String(dados.atualizadoEm);
+  return '--';
+}
+
+/***************************************************************
+ * CARREGAMENTO
+ ***************************************************************/
+function carregarDashboard() {
+
+  const status =
+    $('status');
+
+  if (status) {
+    status.classList.remove('erro');
+    status.textContent =
+      'Carregando dados da base de contratos...';
+  }
+
+  const chartLoading =
+    $('chartLoading');
+
+  if (chartLoading) {
+    chartLoading.classList.remove('hidden');
+    chartLoading.textContent =
+      'Carregando dados...';
+  }
+
+  const callbackName =
+    '__saldoJsonp_' +
+    Date.now() +
+    '_' +
+    Math.floor(Math.random() * 1000000);
+
+  const script = document.createElement('script');
+
+  let finalizado = false;
+
+  function limpar() {
+    try {
+      delete window[callbackName];
+    } catch (e) {
+      window[callbackName] = undefined;
+    }
+
+    if (script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+  }
+
+  window[callbackName] = function(dados) {
+    if (finalizado) return;
+
+    finalizado = true;
+    limpar();
+
+    if (dados && dados.erro) {
+      erroDashboard({
+        message: dados.erro
+      });
+      return;
+    }
+
+    receberDashboard(dados);
+  };
+
+  script.onerror = function() {
+    if (finalizado) return;
+
+    finalizado = true;
+    limpar();
+
+    erroDashboard({
+      message:
+        'Não foi possível acessar a API do Dashboard Saldo.'
+    });
+  };
+
+  script.src =
+    URL_API_SALDO +
+    '?api=saldo' +
+    '&callback=' +
+    encodeURIComponent(callbackName) +
+    '&t=' +
+    Date.now();
+
+  document.head.appendChild(script);
+}
+
+/***************************************************************
+ * RECEBE DADOS
+ ***************************************************************/
+function receberDashboard(dados) {
+
+  console.log('Dashboard recebido:', dados);
+
+  if (!dados) {
+    erroDashboard({
+      message: 'O servidor não retornou dados.'
+    });
+    return;
+  }
+
+  dashboardDados = dados;
+  window.__dashboardDados = dados;
+
+  atualizarTela1(dados);
+  atualizarTela2(dados);
+  atualizarTela3(dados);
+
+  if ($('chartLoading')) {
+    $('chartLoading').classList.add('hidden');
+  }
+
+  if ($('status')) {
+    $('status').classList.remove('erro');
+    $('status').textContent =
+      'Dados carregados com sucesso.';
+  }
+
+  iniciarRotacao();
+}
+
+/***************************************************************
+ * TELA 1
+ ***************************************************************/
+function atualizarTela1(dados) {
+
+  if ($('totalContratado')) {
+    $('totalContratado').textContent =
+      moeda(dados.totalContratado);
+  }
+
+  if ($('totalFaturado')) {
+    $('totalFaturado').textContent =
+      moeda(dados.totalFaturado);
+  }
+
+  if ($('totalSaldo')) {
+    $('totalSaldo').textContent =
+      moeda(dados.saldo);
+  }
+
+  if ($('percentualExecucao')) {
+    $('percentualExecucao').textContent =
+      percentual(dados.execucao);
+  }
+
+  if ($('qtdNormal')) {
+    $('qtdNormal').textContent =
+      Number((dados.situacao || {}).normal || 0);
+  }
+
+  if ($('qtdAtencao')) {
+    $('qtdAtencao').textContent =
+      Number((dados.situacao || {}).atencao || 0);
+  }
+
+  if ($('qtdCritico')) {
+    $('qtdCritico').textContent =
+      Number((dados.situacao || {}).critico || 0);
+  }
+
+  if ($('dataAtualizacao')) {
+    $('dataAtualizacao').textContent =
+      textoAtualizacao(dados);
+  }
+
+  if ($('baseInfo')) {
+    $('baseInfo').textContent =
+      'Base: ' +
+      (
+        dados.base ||
+        'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5'
+      );
+  }
+
+  /*
+   * Mantém o gráfico existente da primeira tela.
+   */
+  if (dados.grafico) {
+    requestAnimationFrame(function() {
+      desenharGrafico(dados.grafico, true);
+    });
+  }
+}
+
+/***************************************************************
+ * TELA 2
+ ***************************************************************/
+
+
+function atualizarTela2(dados) {
+
+  const container = $('screen2Rows');
+  if (!container) return;
+
+  console.log('TELA 02 - dados recebidos:', dados);
+
+  const ordemLotes = ['2', '5', '6'];
+
+  function valorFinanceiro(valor) {
+    if (valor === null || valor === undefined || valor === '') return 0;
+
+    if (typeof valor === 'number') {
+      return isFinite(valor) ? valor : 0;
+    }
+
+    let texto = String(valor)
+      .trim()
+      .replace(/R\$/gi, '')
+      .replace(/\s/g, '');
+
+    if (!texto) return 0;
+
+    if (texto.indexOf(',') >= 0) {
+      texto = texto.replace(/\./g, '').replace(',', '.');
+    } else {
+      texto = texto.replace(/[^\d.-]/g, '');
+    }
+
+    const numero = parseFloat(texto);
+    return isFinite(numero) ? numero : 0;
+  }
+
+  function pegarCampo(objeto, nomes) {
+    if (!objeto || typeof objeto !== 'object') return null;
+
+    for (let i = 0; i < nomes.length; i++) {
+      const nome = nomes[i];
+
+      if (Object.prototype.hasOwnProperty.call(objeto, nome)) {
+        const valor = objeto[nome];
+
+        if (
+          valor !== null &&
+          valor !== undefined &&
+          String(valor).trim() !== ''
+        ) {
+          return valor;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function numeroLote(item) {
+    const valor = pegarCampo(item, [
+      'lote',
+      'LOTE',
+      'Lote',
+      'numeroLote',
+      'numero',
+      'loteNumero'
+    ]);
+
+    return String(
+      valor === null || valor === undefined ? '' : valor
+    ).replace(/[^0-9]/g, '');
+  }
+
+  function nomeContrato(item) {
+    const valor = pegarCampo(item, [
+      'contratoNome',
+      'contrato',
+      'CONTRATO',
+      'cliente',
+      'CLIENTE',
+      'descricao'
+    ]);
+
+    return (
+      valor === null ||
+      valor === undefined ||
+      String(valor).trim() === ''
+    )
+      ? 'SESI / SENAI'
+      : String(valor);
+  }
+
+  function valorSESI(item) {
+    const valor = pegarCampo(item, [
+      'sesi',
+      'SESI',
+      'Sesi',
+      'valorSESI',
+      'valorSesi',
+      'saldoSESI',
+      'saldoSesi',
+      'saldoSesiContrato',
+      'sesiSaldo'
+    ]);
+
+    return valorFinanceiro(valor);
+  }
+
+  function valorSENAI(item) {
+    const valor = pegarCampo(item, [
+      'senai',
+      'SENAI',
+      'Senai',
+      'valorSENAI',
+      'valorSenai',
+      'saldoSENAI',
+      'saldoSenai',
+      'saldoSenaiContrato',
+      'senaiSaldo'
+    ]);
+
+    return valorFinanceiro(valor);
+  }
+
+  /*
+   * O Code.gs já entrega os dados finais em dados.lotes.
+   * A Tela 02 usa essa estrutura diretamente.
+   */
+  let lista = [];
+
+  if (dados && Array.isArray(dados.lotes)) {
+    lista = dados.lotes;
+  } else if (dados && Array.isArray(dados.contratos)) {
+    lista = dados.contratos;
+  } else if (dados && Array.isArray(dados.resultadoTela2)) {
+    lista = dados.resultadoTela2;
+  } else if (dados && Array.isArray(dados.tela2)) {
+    lista = dados.tela2;
+  }
+
+  const mapa = {};
+
+  lista.forEach(function(item) {
+    if (!item || typeof item !== 'object') return;
+
+    const lote = numeroLote(item);
+
+    if (ordemLotes.indexOf(lote) === -1) return;
+
+    mapa[lote] = {
+      lote: lote,
+      contratoNome: nomeContrato(item),
+      sesi: valorSESI(item),
+      senai: valorSENAI(item)
+    };
+  });
+
+  const lotes = ordemLotes
+    .filter(function(numero) {
+      return !!mapa[numero];
+    })
+    .map(function(numero) {
+      return mapa[numero];
+    });
+
+  console.log('TELA 02 - lotes finais:', lotes);
+
+  if (!lotes.length) {
+    container.innerHTML =
+      '<div class="tela2-empty">' +
+      'Nenhum dado dos lotes 2, 5 ou 6 foi encontrado.' +
+      '</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+
+  lotes.forEach(function(lote) {
+    const row = document.createElement('div');
+
+    row.className = 'tela2-row tela2-data-row';
+
+    row.innerHTML =
+      '<div class="tela2-lote">' +
+        escapeHtml(lote.lote) +
+      '</div>' +
+
+      '<div class="tela2-contrato">' +
+        escapeHtml(lote.contratoNome || 'SESI / SENAI') +
+      '</div>' +
+
+      '<div class="tela2-valor tela2-sesi" data-final="' +
+        lote.sesi +
+      '">R$ 0,00</div>' +
+
+      '<div class="tela2-valor tela2-senai" data-final="' +
+        lote.senai +
+      '">R$ 0,00</div>';
+
+    container.appendChild(row);
+  });
+
+  animarValoresTela2(container);
+
+  if ($('screen2Base')) {
+    $('screen2Base').textContent =
+      'Base: ' +
+      (
+        dados.base ||
+        'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5'
+      );
+  }
+
+  if ($('screen2Atualizacao')) {
+    $('screen2Atualizacao').textContent = textoAtualizacao(dados);
+  }
+}
+
+
+
+function animarValoresTela2(container) {
+
+  const elementos =
+    container.querySelectorAll(
+      '.tela2-valor'
+    );
+
+  const inicio =
+    performance.now();
+
+  const duracao =
+    2200;
+
+  function quadro(agora) {
+
+    let p =
+      Math.min(
+        1,
+        (agora - inicio) /
+        duracao
+      );
+
+    p =
+      1 -
+      Math.pow(
+        1 - p,
+        3
+      );
+
+    elementos.forEach(
+      function(elemento) {
+
+        const final =
+          Number(
+            elemento.getAttribute(
+              'data-final'
+            )
+          ) || 0;
+
+        elemento.textContent =
+          moeda(final * p);
+      }
+    );
+
+    if (p < 1) {
+      requestAnimationFrame(
+        quadro
+      );
+    } else {
+      elementos.forEach(
+        function(elemento) {
+          const final =
+            Number(
+              elemento.getAttribute(
+                'data-final'
+              )
+            ) || 0;
+
+          elemento.textContent =
+            moeda(final);
+        }
+      );
+    }
+  }
+
+  requestAnimationFrame(
+    quadro
+  );
+}
+
+
+/***************************************************************
+ * TELA 3
+ ***************************************************************/
+
+function animarGraficoLotes(dados) {
+  const container = $('graficoLotesAnimado');
+  if (!container) return;
+
+  if (window.__graficoLotesAnimacao) {
+    cancelAnimationFrame(window.__graficoLotesAnimacao);
+    window.__graficoLotesAnimacao = null;
+  }
+
+  const lotes = Array.isArray(dados.lotes) ? dados.lotes : [];
+
+  if (!lotes.length) {
+    container.innerHTML =
+      '<div class="grafico-lotes-loading">Nenhum lote encontrado.</div>';
+    return;
+  }
+
+  let maior = 0;
+  lotes.forEach(function(lote) {
+    maior = Math.max(
+      maior,
+      numeroSeguro(lote.contratado),
+      numeroSeguro(lote.faturado),
+      numeroSeguro(lote.saldo)
+    );
+  });
+
+  if (maior <= 0) maior = 1;
+
+  container.innerHTML = '';
+  const itens = [];
+
+  lotes.forEach(function(lote, indice) {
+    const bloco = document.createElement('div');
+    bloco.className = 'grafico-lote';
+
+    bloco.innerHTML =
+      '<div class="grafico-lote-nome">' +
+        escapeHtml(lote.lote || ('Lote ' + (indice + 1))) +
+      '</div>' +
+      '<div class="grafico-lote-barras">' +
+        criarBarraLote3('Contratado','contratado',lote.contratado) +
+        criarBarraLote3('Faturado','faturado',lote.faturado) +
+        criarBarraLote3('Saldo','saldo',lote.saldo) +
+      '</div>';
+
+    container.appendChild(bloco);
+
+    itens.push({
+      bloco: bloco,
+      valores: [
+        {classe:'contratado', valor:numeroSeguro(lote.contratado)},
+        {classe:'faturado', valor:numeroSeguro(lote.faturado)},
+        {classe:'saldo', valor:numeroSeguro(lote.saldo)}
+      ]
+    });
+  });
+
+  const inicio = performance.now();
+  const duracao = 3000;
+
+  function quadro(agora) {
+    let progresso = Math.min(1, (agora - inicio) / duracao);
+    progresso = 1 - Math.pow(1 - progresso, 3);
+
+    itens.forEach(function(item) {
+      item.valores.forEach(function(v) {
+        const barra =
+          item.bloco.querySelector('.barra-valor.' + v.classe);
+        const numero =
+          item.bloco.querySelector('.barra-numero.' + v.classe);
+
+        if (!barra || !numero) return;
+
+        const atual = v.valor * progresso;
+        barra.style.width =
+          Math.min(100, Math.max(0, atual / maior * 100)) + '%';
+        numero.textContent = moeda(atual);
+      });
+    });
+
+    if (progresso < 1) {
+      window.__graficoLotesAnimacao =
+        requestAnimationFrame(quadro);
+    } else {
+      window.__graficoLotesAnimacao = null;
+    }
+  }
+
+  window.__graficoLotesAnimacao =
+    requestAnimationFrame(quadro);
+}
+
+function criarBarraLote3(label, classe, valor) {
+  return '<div class="barra-linha">' +
+    '<div class="barra-label">' + label + '</div>' +
+    '<div class="barra-trilho">' +
+      '<div class="barra-valor ' + classe + '"></div>' +
+    '</div>' +
+    '<div class="barra-numero ' + classe + '">R$ 0,00</div>' +
+  '</div>';
+}
+
+function atualizarTela3(dados) {
+  if ($('screen3Contratado'))
+    $('screen3Contratado').textContent = moeda(dados.totalContratado);
+
+  if ($('screen3Faturado'))
+    $('screen3Faturado').textContent = moeda(dados.totalFaturado);
+
+  if ($('screen3Saldo'))
+    $('screen3Saldo').textContent = moeda(dados.saldo);
+
+  if ($('screen3Execucao'))
+    $('screen3Execucao').textContent = percentual(dados.execucao);
+
+  if ($('screen3Base'))
+    $('screen3Base').textContent =
+      'Base: ' + (dados.base ||
+      'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5');
+
+  if ($('screen3Atualizacao'))
+    $('screen3Atualizacao').textContent = textoAtualizacao(dados);
+
+  const container = $('graficoLotesAnimado');
+  if (container) {
+    container.innerHTML =
+      '<div class="grafico-lotes-loading">Preparando gráfico...</div>';
+  }
+}
+
+/***************************************************************
+ * GRÁFICO DA TELA 1
+ ***************************************************************/
+function desenharGrafico(dados, animar = true) {
+
+  const canvas =
+    $('graficoFinanceiro');
+
+  if (!canvas) return;
+
+  const box =
+    canvas.parentElement;
+
+  const rect =
+    box.getBoundingClientRect();
+
+  const largura =
+    Math.max(
+      400,
+      Math.floor(rect.width || 400)
+    );
+
+  const altura =
+    Math.max(
+      280,
+      Math.floor(rect.height || 370)
+    );
+
+  const dpr =
+    window.devicePixelRatio || 1;
+
+  canvas.width =
+    Math.floor(largura * dpr);
+
+  canvas.height =
+    Math.floor(altura * dpr);
+
+  canvas.style.width =
+    largura + 'px';
+
+  canvas.style.height =
+    altura + 'px';
+
+  const ctx =
+    canvas.getContext('2d');
+
+  if (!ctx) return;
+
+  const valoresFinais =
+    Array.isArray(dados.valores)
+      ? dados.valores.map(numeroSeguro)
+      : [
+          numeroSeguro(dados.contratado),
+          numeroSeguro(dados.faturado),
+          numeroSeguro(dados.saldo)
+        ];
+
+  const categorias = [
+    'Contratado',
+    'Faturado',
+    'Saldo'
+  ];
+
+  const margemEsq = 82;
+  const margemDir = 28;
+  const margemTopo = 30;
+  const margemBase = 70;
+
+  const graficoLargura =
+    largura -
+    margemEsq -
+    margemDir;
+
+  const graficoAltura =
+    altura -
+    margemTopo -
+    margemBase;
+
+  let maximo =
+    Math.max.apply(null, valoresFinais);
+
+  if (!isFinite(maximo) || maximo <= 0) {
+    maximo = 1;
+  }
+
+  const maxEixo =
+    calcularMaxEixo(maximo);
+
+  /*
+   * Cancela uma animação anterior do gráfico.
+   * Isso evita dois desenhos concorrendo quando o
+   * dashboard troca de tela ou é atualizado.
+   */
+  if (window.__graficoAnimacao) {
+    cancelAnimationFrame(
+      window.__graficoAnimacao
+    );
+    window.__graficoAnimacao = null;
+  }
+
+  const duracao =
+    2600;
+
+  const inicio =
+    performance.now();
+
+  function desenharQuadro(agora) {
+
+    let progresso;
+
+    if (!animar) {
+      progresso = 1;
+    } else {
+      progresso =
+        Math.min(
+          1,
+          (agora - inicio) /
+          duracao
+        );
+
+      /*
+       * Easing suave:
+       * começa devagar, acelera e termina suavemente.
+       */
+      progresso =
+        1 -
+        Math.pow(
+          1 - progresso,
+          3
+        );
+    }
+
+    const valores =
+      valoresFinais.map(
+        function(valor) {
+          return valor * progresso;
+        }
+      );
+
+    ctx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    ctx.clearRect(
+      0,
+      0,
+      largura,
+      altura
+    );
+
+    /*
+     * Grade horizontal
+     */
+    ctx.font =
+      '11px Arial';
+
+    ctx.textAlign =
+      'right';
+
+    ctx.textBaseline =
+      'middle';
+
+    for (let i = 0; i <= 5; i++) {
+
+      const valor =
+        maxEixo * i / 5;
+
+      const y =
+        margemTopo +
+        graficoAltura -
+        graficoAltura * i / 5;
+
+      ctx.beginPath();
+      ctx.strokeStyle =
+        '#e8edf2';
+      ctx.lineWidth = 1;
+
+      ctx.moveTo(
+        margemEsq,
+        y
+      );
+
+      ctx.lineTo(
+        largura - margemDir,
+        y
+      );
+
+      ctx.stroke();
+
+      ctx.fillStyle =
+        '#64748b';
+
+      ctx.fillText(
+        formatarAbreviado(valor),
+        margemEsq - 10,
+        y
+      );
+    }
+
+    const grupoLargura =
+      graficoLargura /
+      valores.length;
+
+    const larguraBarra =
+      Math.min(
+        76,
+        grupoLargura * .48
+      );
+
+    const cores = [
+      '#2563eb',
+      '#16a34a',
+      '#94a3b8'
+    ];
+
+    valores.forEach(
+      function(valor, i) {
+
+        const alturaBarra =
+          (
+            valor /
+            maxEixo
+          ) *
+          graficoAltura;
+
+        const x =
+          margemEsq +
+          grupoLargura * i +
+          (
+            grupoLargura -
+            larguraBarra
+          ) / 2;
+
+        const y =
+          margemTopo +
+          graficoAltura -
+          alturaBarra;
+
+        ctx.fillStyle =
+          cores[i];
+
+        ctx.beginPath();
+
+        if (
+          typeof ctx.roundRect ===
+          'function'
+        ) {
+
+          ctx.roundRect(
+            x,
+            y,
+            larguraBarra,
+            Math.max(
+              alturaBarra,
+              1
+            ),
+            6
+          );
+
+        } else {
+
+          ctx.rect(
+            x,
+            y,
+            larguraBarra,
+            Math.max(
+              alturaBarra,
+              1
+            )
+          );
+        }
+
+        ctx.fill();
+
+        /*
+         * Valor aparece junto com o crescimento da barra.
+         */
+        ctx.fillStyle =
+          '#334155';
+
+        ctx.font =
+          'bold 11px Arial';
+
+        ctx.textAlign =
+          'center';
+
+        ctx.textBaseline =
+          'bottom';
+
+        if (progresso > 0.03) {
+
+          ctx.fillText(
+            formatarAbreviado(valor),
+            x + larguraBarra / 2,
+            Math.max(
+              y - 8,
+              margemTopo + 10
+            )
+          );
+        }
+
+        ctx.fillStyle =
+          '#334155';
+
+        ctx.font =
+          '11px Arial';
+
+        ctx.textBaseline =
+          'top';
+
+        ctx.fillText(
+          categorias[i],
+          x + larguraBarra / 2,
+          margemTopo +
+          graficoAltura +
+          15
+        );
+      }
+    );
+
+    /*
+     * Continua até atingir 100%.
+     */
+    if (
+      animar &&
+      progresso < 1
+    ) {
+
+      window.__graficoAnimacao =
+        requestAnimationFrame(
+          desenharQuadro
+        );
+
+    } else {
+
+      window.__graficoAnimacao =
+        null;
+    }
+  }
+
+  desenharQuadro(
+    performance.now()
+  );
+}
+
+function calcularMaxEixo(maximo) {
+
+  const magnitude =
+    Math.pow(
+      10,
+      Math.floor(
+        Math.log10(maximo)
+      )
+    );
+
+  const normalizado =
+    maximo /
+    magnitude;
+
+  let passo;
+
+  if (normalizado <= 1) passo = 1;
+  else if (normalizado <= 2) passo = 2;
+  else if (normalizado <= 5) passo = 5;
+  else passo = 10;
+
+  return passo * magnitude;
+}
+
+function formatarAbreviado(valor) {
+
+  const n =
+    numeroSeguro(valor);
+
+  if (Math.abs(n) >= 1000000) {
+    return (
+      n / 1000000
+    ).toLocaleString('pt-BR', {
+      maximumFractionDigits: 1
+    }) + ' mi';
+  }
+
+  if (Math.abs(n) >= 1000) {
+    return (
+      n / 1000
+    ).toLocaleString('pt-BR', {
+      maximumFractionDigits: 0
+    }) + ' mil';
+  }
+
+  return n.toLocaleString('pt-BR', {
+    maximumFractionDigits: 0
+  });
+}
+
+/* ================================================================
+ * ROTAÇÃO DAS 3 TELAS — SOMENTE RELATÓRIOS DO SALDO
+ *
+ * TELA 01 -> 20s -> TELA 02 -> 20s -> TELA 03 -> 20s
+ * Depois retorna diretamente ao Controlador V2.
+ *
+ * Não usa iframe.
+ * Não usa postMessage.
+ * Não envia SALDO_FINALIZOU.
+ * O Controlador V2 reinicia o ciclo completo.
+ * ================================================================ */
+
+function finalizarSaldo() {
+
+  if (finalizandoSaldo) return;
+
+  finalizandoSaldo = true;
+  pararRotacao();
+
+  console.log('==========================================');
+  console.log('SALDO — RELATÓRIOS CONCLUÍDOS');
+  console.log('TELA 03 FINALIZADA');
+
+  /*
+   * TESTE DIRETO DO INDEX:
+   * não navega para BMB3 nem para Obras.
+   */
+  if (!MODO_CICLO) {
+
+    console.log('MODO: TESTE DIRETO DO SALDO');
+    console.log('SALDO: somente relatórios');
+    console.log('SALDO: ciclo encerrado nesta página');
+    console.log('==========================================');
+
+    return;
+  }
+
+  /*
+   * MODO CICLO:
+   * usado quando o Dashboard Saldo foi chamado pelo fluxo
+   * completo. Nesse caso retorna ao Controlador V2.
+   */
+  console.log('MODO: CICLO COMPLETO');
+  console.log('SALDO — RETORNANDO AO CONTROLADOR V2');
+  console.log('DESTINO: ' + URL_CONTROLADOR);
+  console.log('==========================================');
+
+  window.location.replace(URL_CONTROLADOR);
+}
+
+function iniciarRotacao() {
+
+  pararRotacao();
+  finalizandoSaldo = false;
+  telaAtual = 0;
+
+  console.log('==========================================');
+  console.log('SALDO — INICIANDO RELATÓRIOS');
+  console.log('TELA 01');
+  console.log(
+    MODO_CICLO
+      ? 'MODO: CICLO COMPLETO'
+      : 'MODO: TESTE DIRETO — SOMENTE RELATÓRIOS'
+  );
+  console.log('==========================================');
+
+  mostrarTela(0, false);
+  programarProximaTela();
+}
+
+function programarProximaTela() {
+
+  pararRotacao();
+
+  timerTelas = setTimeout(function() {
+
+    if (finalizandoSaldo) return;
+
+    const telas = document.querySelectorAll('.tela-dashboard');
+
+    if (!telas.length) {
+      console.warn('SALDO: nenhuma tela de relatório encontrada.');
+      return;
+    }
+
+    if (telaAtual >= telas.length - 1) {
+      finalizarSaldo();
+      return;
+    }
+
+    telaAtual++;
+
+    console.log(
+      'SALDO: relatório ' +
+      (telaAtual + 1) +
+      ' de ' +
+      telas.length
+    );
+
+    mostrarTela(telaAtual, true);
+    programarProximaTela();
+
+  }, TEMPO_TELA);
+}
+
+function pararRotacao() {
+
+  if (timerTelas !== null) {
+    clearTimeout(timerTelas);
+    timerTelas = null;
+  }
+}
+
+function mostrarTela(indice, animar) {
+
+  const telas = document.querySelectorAll('.tela-dashboard');
+  if (!telas.length) return;
+
+  telas.forEach(function(tela, i) {
+
+    const ativa = i === indice;
+
+    tela.classList.toggle('tela-ativa', ativa);
+
+    if (ativa) {
+      tela.style.display = 'block';
+      tela.style.visibility = 'visible';
+      tela.style.opacity = '1';
+      tela.style.pointerEvents = 'auto';
+      tela.style.zIndex = '10';
+
+      if (animar) {
+        tela.style.animation = 'none';
+        void tela.offsetWidth;
+        tela.style.animation =
+          'entradaDashboard ' +
+          TEMPO_TRANSICAO +
+          'ms ease both';
+      }
+
+    } else {
+      tela.style.display = 'none';
+      tela.style.visibility = 'hidden';
+      tela.style.opacity = '0';
+      tela.style.pointerEvents = 'none';
+      tela.style.zIndex = '1';
+      tela.style.animation = 'none';
+    }
+  });
+
+  atualizarIndicadorTela(indice, telas.length);
+
+  if (dashboardDados && indice === 2) {
+    setTimeout(function() {
+      if (telaAtual === 2 && !finalizandoSaldo) {
+        animarGraficoLotes(dashboardDados);
+      }
+    }, TEMPO_TRANSICAO + 40);
+  }
+
+  if (dashboardDados && indice === 0) {
+    setTimeout(function() {
+      if (telaAtual === 0 && !finalizandoSaldo) {
+        desenharGrafico(
+          dashboardDados.grafico || {},
+          true
+        );
+      }
+    }, TEMPO_TRANSICAO + 30);
+  }
+}
+
+function atualizarIndicadorTela(indice, total) {
+
+  let indicador = $('indicadorTelas');
+
+  if (!indicador) {
+    indicador = document.createElement('div');
+    indicador.id = 'indicadorTelas';
+    document.body.appendChild(indicador);
+  }
+
+  indicador.innerHTML = '';
+
+  for (let i = 0; i < total; i++) {
+    const ponto = document.createElement('span');
+    ponto.className =
+      'ponto-tela' +
+      (i === indice ? ' ativo' : '');
+    indicador.appendChild(ponto);
+  }
+}
+
+/***************************************************************
+ * ERRO
+ ***************************************************************/
+function erroDashboard(erro) {
+
+  console.error(
+    'Erro no dashboard:',
+    erro
+  );
+
+  if ($('chartLoading')) {
+
+    $('chartLoading').classList.remove(
+      'hidden'
+    );
+
+    $('chartLoading').textContent =
+      'Não foi possível carregar os dados.';
+  }
+
+  if ($('status')) {
+
+    $('status').classList.add(
+      'erro'
+    );
+
+    $('status').textContent =
+      'Erro: ' +
+      (
+        erro &&
+        erro.message
+          ? erro.message
+          : String(
+              erro ||
+              'Erro desconhecido'
+            )
+      );
+  }
+}
+
+/***************************************************************
+ * AUXILIAR
+ ***************************************************************/
+function escapeHtml(valor) {
+
+  return String(valor)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/***************************************************************
+ * REDIMENSIONAMENTO
+ ***************************************************************/
+let resizeTimer = null;
+
+window.addEventListener(
+  'resize',
+  function() {
+
+    clearTimeout(
+      resizeTimer
+    );
+
+    resizeTimer =
+      setTimeout(
+        function() {
+
+          if (
+            dashboardDados &&
+            dashboardDados.grafico &&
+            telaAtual === 0
+          ) {
+
+            desenharGrafico(
+              dashboardDados.grafico,
+              false
+            );
+          }
+
+        },
+        120
+      );
+  }
+);
+
+/***************************************************************
+ * INICIALIZAÇÃO
+ ***************************************************************/
+window.addEventListener(
+  'load',
+  function() {
+
+    const telas =
+      document.querySelectorAll('.tela-dashboard');
+
+    telas.forEach(function(tela, i) {
+      tela.classList.remove('tela-ativa');
+      tela.style.display = 'none';
+      tela.style.visibility = 'hidden';
+      tela.style.opacity = '0';
+      tela.style.pointerEvents = 'none';
+      tela.style.zIndex = '1';
+    });
+
+    telaAtual = 0;
+    mostrarTela(0, false);
+
+    carregarDashboard();
+
+  }
+);
+</script>
+</body>
+</html>
