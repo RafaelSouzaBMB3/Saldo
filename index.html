@@ -3039,7 +3039,7 @@ function atualizarTela4(dados) {
 
 const TEMPO_TELA = 20000;
 const TEMPO_TRANSICAO = 800;
-const TEMPO_INICIO_GRAFICO = TEMPO_TELA * 0.20; // 4s = 2ª bolinha // 4 segundos = 2ª bolinha
+const TEMPO_INICIO_GRAFICO = TEMPO_TELA * 0.20; // 4 segundos = 2ª bolinha
 
 const PARAMETROS_URL =
   new URLSearchParams(window.location.search);
@@ -3060,6 +3060,8 @@ let dashboardDados = null;
 let telaAtual = 0;
 let inicioTelaAtual = 0;
 let timerGraficoTela1 = null;
+let rotacaoIniciada = false;
+const CACHE_SALDO = 'SALDO_DASHBOARD_CACHE_V1';
 let timerTelas = null;
 let frameBolinhas = null;
 
@@ -3118,13 +3120,104 @@ function textoAtualizacao(dados) {
   return '--';
 }
 
+
+/***************************************************************
+ * CACHE LOCAL DO SALDO
+ *
+ * O último retorno válido do Apps Script é guardado no navegador.
+ * Assim, no próximo carregamento da página, a Tela 01 já recebe
+ * os valores imediatamente, sem esperar a API terminar.
+ *
+ * A API continua sendo chamada em seguida para atualizar os dados.
+ ***************************************************************/
+function salvarCacheSaldo(dados) {
+  try {
+    if (!dados || !dados.grafico) return;
+
+    localStorage.setItem(
+      CACHE_SALDO,
+      JSON.stringify({
+        salvoEm: Date.now(),
+        dados: dados
+      })
+    );
+  } catch (e) {
+    console.log('SALDO — não foi possível salvar cache:', e);
+  }
+}
+
+function carregarCacheSaldo() {
+  try {
+    const bruto = localStorage.getItem(CACHE_SALDO);
+
+    if (!bruto) return null;
+
+    const pacote = JSON.parse(bruto);
+
+    if (
+      !pacote ||
+      !pacote.dados ||
+      !pacote.dados.grafico
+    ) {
+      return null;
+    }
+
+    console.log(
+      'SALDO — usando dados locais enquanto atualiza a API.',
+      pacote.salvoEm
+        ? new Date(pacote.salvoEm).toLocaleTimeString('pt-BR')
+        : ''
+    );
+
+    return pacote.dados;
+
+  } catch (e) {
+    console.log('SALDO — cache inválido:', e);
+    return null;
+  }
+}
+
+function aplicarDadosDashboard(dados, iniciarDepois) {
+
+  if (!dados) return;
+
+  dashboardDados = dados;
+  window.__dashboardDados = dados;
+
+  atualizarTela1(dados);
+  atualizarTela2(dados);
+  atualizarTela3(dados);
+  atualizarTela4(dados);
+  carregarTela5();
+
+  if ($('chartLoading')) {
+    $('chartLoading').classList.add('hidden');
+  }
+
+  if ($('status')) {
+    $('status').classList.remove('erro');
+    $('status').textContent =
+      'Dados carregados com sucesso.';
+  }
+
+  if (
+    iniciarDepois &&
+    !rotacaoIniciada
+  ) {
+    rotacaoIniciada = true;
+    console.log(
+      'SALDO — dados disponíveis → iniciando rotação.'
+    );
+    iniciarRotacao();
+  }
+}
+
 /***************************************************************
  * CARREGAMENTO
  ***************************************************************/
 function carregarDashboard() {
 
-  const status =
-    $('status');
+  const status = $('status');
 
   if (status) {
     status.classList.remove('erro');
@@ -3132,24 +3225,34 @@ function carregarDashboard() {
       'Carregando dados da base de contratos...';
   }
 
-  const chartLoading =
-    $('chartLoading');
+  const chartLoading = $('chartLoading');
 
   if (chartLoading) {
     chartLoading.classList.remove('hidden');
     chartLoading.textContent =
-      'Carregando dados...';
+      'Atualizando dados...';
   }
 
   /*
-   * O INDEX ESTÁ HOSPEDADO NO GITHUB PAGES.
-   * Portanto não existe google.script.run (INDISPONIVEL NO GITHUB) neste ambiente.
+   * PRIMEIRO:
+   * usa imediatamente o último resultado válido.
    *
-   * Usamos JSONP porque o Apps Script fornece a API em outro
-   * domínio e o carregamento por <script> permite a chamada
-   * sem iframe, sem postMessage e sem servidor intermediário.
+   * Isso elimina a espera visual da Tela 01.
    */
+  const cache = carregarCacheSaldo();
 
+  if (cache) {
+    aplicarDadosDashboard(
+      cache,
+      true
+    );
+  }
+
+  /*
+   * DEPOIS:
+   * chama o Apps Script para buscar os dados atuais.
+   * A chamada acontece em paralelo ao funcionamento da tela.
+   */
   const callback =
     'receberDashboard_' +
     Date.now();
@@ -3158,14 +3261,20 @@ function carregarDashboard() {
 
     try {
       receberDashboard(dados);
+
     } finally {
 
       try {
         delete window[callback];
       } catch (e) {}
 
-      if (scriptApiSaldo && scriptApiSaldo.parentNode) {
-        scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
+      if (
+        scriptApiSaldo &&
+        scriptApiSaldo.parentNode
+      ) {
+        scriptApiSaldo.parentNode.removeChild(
+          scriptApiSaldo
+        );
       }
 
       scriptApiSaldo = null;
@@ -3192,26 +3301,37 @@ function carregarDashboard() {
       url
     );
 
-    erroDashboard({
-      message: 'Não foi possível chamar o Dashboard Saldo no Google Apps Script.'
-    });
+    /*
+     * Se já temos cache, NÃO derruba a apresentação.
+     * O dashboard continua funcionando com os últimos dados válidos.
+     */
+    if (!dashboardDados) {
+      erroDashboard({
+        message:
+          'Não foi possível chamar o Dashboard Saldo no Google Apps Script.'
+      });
+    }
 
     try {
       delete window[callback];
     } catch (e) {}
 
-    if (scriptApiSaldo && scriptApiSaldo.parentNode) {
-      scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
+    if (
+      scriptApiSaldo &&
+      scriptApiSaldo.parentNode
+    ) {
+      scriptApiSaldo.parentNode.removeChild(
+        scriptApiSaldo
+      );
     }
 
     scriptApiSaldo = null;
   };
 
-  document.head.appendChild(scriptApiSaldo);
+  document.head.appendChild(
+    scriptApiSaldo
+  );
 }
-
-
-
 
 
 /***************************************************************
@@ -3224,7 +3344,6 @@ function receberDashboard(dados) {
     dados
   );
 
-
   if (!dados) {
 
     erroDashboard({
@@ -3235,101 +3354,40 @@ function receberDashboard(dados) {
     return;
   }
 
-
-  /* ==========================================================
-     GUARDA OS DADOS DO DASHBOARD
-     ========================================================== */
-
-  dashboardDados =
-    dados;
-
-  window.__dashboardDados =
-    dados;
+  /*
+   * Guarda o retorno para o próximo carregamento.
+   */
+  salvarCacheSaldo(dados);
 
   /*
-   * Se os dados chegarem antes dos 4 segundos, aguarda.
-   * Se chegarem depois, o gráfico começa imediatamente.
+   * Atualiza todos os relatórios.
+   *
+   * IMPORTANTE:
+   * não reinicia o relógio das bolinhas quando a API responde.
+   * Isso evita que a chegada dos dados empurre a animação para
+   * o final da Tela 01.
    */
-  if (telaAtual === 0) {
+  aplicarDadosDashboard(
+    dados,
+    !rotacaoIniciada
+  );
+
+  /*
+   * Se a rotação já estava funcionando com o cache,
+   * apenas atualizamos os dados. O relógio permanece intacto.
+   */
+  if (
+    rotacaoIniciada &&
+    telaAtual === 0 &&
+    dashboardDados &&
+    dashboardDados.grafico
+  ) {
+    /*
+     * Se o gráfico ainda não começou, mantém o agendamento
+     * sincronizado com a 2ª bolinha.
+     */
     agendarGraficoTela1();
   }
-
-
-  /* ==========================================================
-     ATUALIZAÇÃO DAS TELAS
-     ========================================================== */
-
-  atualizarTela1(
-    dados
-  );
-
-
-  atualizarTela2(
-    dados
-  );
-
-
-  atualizarTela3(
-    dados
-  );
-
-
-  /* ==========================================================
-     TELA 4 — SESI × SENAI
-     ========================================================== */
-
-  atualizarTela4(
-    dados
-  );
-
-  carregarTela5();
-
-
-  /* ==========================================================
-     GRÁFICO PRINCIPAL
-     ========================================================== */
-
-  if ($('chartLoading')) {
-
-    $('chartLoading')
-      .classList
-      .add('hidden');
-
-  }
-
-
-  /* ==========================================================
-     STATUS
-     ========================================================== */
-
-  if ($('status')) {
-
-    $('status')
-      .classList
-      .remove('erro');
-
-    $('status').textContent =
-      'Dados carregados com sucesso.';
-
-  }
-
-
-  /* ==========================================================
-     CONSOLE — CONFERÊNCIA DA TELA 4
-     ========================================================== */
-
-  console.log(
-    'TELA 04 — dados recebidos:',
-    dados.tela4
-  );
-
-
-
-
-
-
-
-
 }
 
 
@@ -6316,9 +6374,12 @@ window.addEventListener(
       MODO_CICLO ? 'CICLO' : 'DIRETO'
     );
 
-    console.log('SALDO ROTACAO — INICIADA');
-    iniciarRotacao();
-
+    /*
+     * Primeiro carrega cache/API.
+     * A rotação começa imediatamente se houver cache.
+     * Sem cache, começa assim que o primeiro retorno válido
+     * do Apps Script chegar.
+     */
     carregarDashboard();
 
   }
