@@ -3039,7 +3039,7 @@ function atualizarTela4(dados) {
 
 const TEMPO_TELA = 20000;
 const TEMPO_TRANSICAO = 800;
-const TEMPO_INICIO_GRAFICO = TEMPO_TELA * 0.20; // 4 segundos = 2ª bolinha
+const TEMPO_INICIO_GRAFICO = TEMPO_TELA * 0.20; // 4s = 2ª bolinha // 4 segundos = 2ª bolinha
 
 const PARAMETROS_URL =
   new URLSearchParams(window.location.search);
@@ -5389,8 +5389,7 @@ function desenharGrafico(dados, animar = true) {
     window.__graficoAnimacao = null;
   }
 
-  const duracao =
-    2600;
+  const duracao = 1400;
 
   const inicio =
     performance.now();
