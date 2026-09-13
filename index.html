@@ -1400,6 +1400,291 @@ html, body {
   }
 </style>
 
+
+<style id="CORRECAO_LAYOUT_GITHUB_SALDO_FINAL">
+/* ============================================================
+   CORREÇÃO FINAL DE LAYOUT — PROJETO SALDO / GITHUB
+   Não altera a origem dos dados.
+   Não altera VIDEO_BMB3, OBRAS ou CONTROLADOR.
+   ============================================================ */
+
+html,
+body {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ============================================================
+   TELA 02 — SITUAÇÃO DOS CONTRATOS
+   O problema era a tabela comprimindo as 6 linhas.
+   ============================================================ */
+
+.tela-dashboard[data-tela="1"] .screen-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  height: calc(100vh - 56px) !important;
+  min-height: 0 !important;
+}
+
+.tela-dashboard[data-tela="1"] .tela2-table-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard[data-tela="1"] .tela2-title {
+  flex: 0 0 auto !important;
+  margin-bottom: 12px !important;
+  font-size: 24px !important;
+}
+
+.tela-dashboard[data-tela="1"] .tela2-table {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard[data-tela="1"] .tela2-head {
+  flex: 0 0 42px !important;
+  min-height: 42px !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows {
+  display: grid !important;
+  grid-template-rows: repeat(6, minmax(0, 1fr)) !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row {
+  display: grid !important;
+  grid-template-columns: 1fr 2.1fr 1.2fr 1.2fr !important;
+  flex: none !important;
+  min-height: 0 !important;
+  height: auto !important;
+  font-size: 20px !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row > div {
+  min-width: 0 !important;
+  padding: 0 8px !important;
+  line-height: 1.05 !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-lote {
+  font-size: 22px !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-contrato {
+  font-size: 18px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.tela-dashboard[data-tela="1"] #screen2Rows .tela2-data-row .tela2-valor {
+  font-size: 19px !important;
+  white-space: nowrap !important;
+}
+
+.tela-dashboard[data-tela="1"] .tela2-info {
+  flex: 0 0 72px !important;
+  min-height: 72px !important;
+  margin-top: 0 !important;
+}
+
+.tela-dashboard[data-tela="1"] .screen-footer {
+  flex: 0 0 auto !important;
+  margin-top: 10px !important;
+}
+
+/* ============================================================
+   TELA 03 — DESEMPENHO POR LOTE
+   Compacta os 6 conjuntos de barras para caber no monitor
+   sem cortar os dados.
+   ============================================================ */
+
+.tela-dashboard[data-tela="2"] .screen-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  height: calc(100vh - 56px) !important;
+  min-height: 0 !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lotes-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 18px 22px 16px !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lotes-header {
+  flex: 0 0 auto !important;
+  margin-bottom: 10px !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lotes {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lote {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  padding: 14px 12px !important;
+  overflow: hidden !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lote-nome {
+  flex: 0 0 auto !important;
+  font-size: 20px !important;
+  padding-bottom: 7px !important;
+  margin: 0 !important;
+}
+
+.tela-dashboard[data-tela="2"] .grafico-lote-clientes {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+.tela-dashboard[data-tela="2"] .lote-cliente {
+  min-width: 0 !important;
+  padding: 0 5px !important;
+}
+
+.tela-dashboard[data-tela="2"] .lote-cliente + .lote-cliente {
+  padding-left: 9px !important;
+}
+
+.tela-dashboard[data-tela="2"] .lote-cliente-nome {
+  font-size: 15px !important;
+  margin-bottom: 8px !important;
+}
+
+.tela-dashboard[data-tela="2"] .lote-cliente-barras {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+}
+
+.tela-dashboard[data-tela="2"] .barra-linha-cliente {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  min-height: 0 !important;
+}
+
+.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-label {
+  font-size: 9px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-trilho {
+  width: 100% !important;
+  height: 19px !important;
+  min-height: 19px !important;
+  border-radius: 6px !important;
+}
+
+.tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-numero {
+  font-size: 9px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  text-shadow: none !important;
+  padding: 0 3px !important;
+}
+
+.tela-dashboard[data-tela="2"] .screen3-summary {
+  flex: 0 0 auto !important;
+  margin-top: 12px !important;
+}
+
+.tela-dashboard[data-tela="2"] .screen3-summary > div {
+  padding: 11px 14px !important;
+}
+
+.tela-dashboard[data-tela="2"] .screen3-summary strong {
+  font-size: 16px !important;
+}
+
+.tela-dashboard[data-tela="2"] .screen-footer {
+  flex: 0 0 auto !important;
+  margin-top: 9px !important;
+}
+
+/* Em monitores baixos, compacta mais sem criar rolagem. */
+@media (max-height: 800px) {
+  .tela-dashboard[data-tela="1"] .screen-header,
+  .tela-dashboard[data-tela="2"] .screen-header {
+    margin-bottom: 14px !important;
+  }
+
+  .tela-dashboard[data-tela="1"] .tela2-info {
+    flex-basis: 64px !important;
+    min-height: 64px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .grafico-lotes-panel {
+    padding-top: 14px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .grafico-lote {
+    padding: 11px 10px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .grafico-lote-nome {
+    font-size: 19px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .lote-cliente-nome {
+    font-size: 14px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .lote-cliente-barras {
+    gap: 5px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-trilho {
+    height: 17px !important;
+    min-height: 17px !important;
+  }
+
+  .tela-dashboard[data-tela="2"] .barra-linha-cliente .barra-numero {
+    font-size: 8.5px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="tela-dashboard" data-tela="0">
@@ -2766,7 +3051,7 @@ const URL_CONTROLADOR =
 
 /* API JSONP DO DASHBOARD SALDO NO GOOGLE APPS SCRIPT */
 const URL_API_SALDO =
-  'https://script.google.com/macros/s/AKfycbwZ-eyB9WNZWnkI87uPeQ6a2zIDNPYMzgiRZfyMfe0ZOJbg5RlsEyO06Bj9xS1PEf-G0Q/exec';
+  'https://script.google.com/macros/s/AKfycbyJHYfVZbPhrZJBS_-TmyJrjpZB7mH4xw1cJ3YGOv6a-IppBzkEvpFk3b85HQQJPJcV4g/exec';
 
 let scriptApiSaldo = null;
 
@@ -2855,7 +3140,7 @@ function carregarDashboard() {
 
   /*
    * O INDEX ESTÁ HOSPEDADO NO GITHUB PAGES.
-   * Portanto não existe google_script_run_indisponivel_no_github (INDISPONIVEL NO GITHUB) neste ambiente.
+   * Portanto não existe google.script.run (INDISPONIVEL NO GITHUB) neste ambiente.
    *
    * Usamos JSONP porque o Apps Script fornece a API em outro
    * domínio e o carregamento por <script> permite a chamada
@@ -4038,7 +4323,7 @@ function testarTela5() {
 function carregarTela5() {
 
   /*
-   * No GitHub Pages não existe google_script_run_indisponivel_no_github (INDISPONIVEL NO GITHUB).
+   * No GitHub Pages não existe google.script.run (INDISPONIVEL NO GITHUB).
    *
    * A chamada JSONP já trouxe os mesmos dados do Dashboard
    * para dashboardDados. Portanto a Tela 5 usa diretamente
@@ -5972,6 +6257,7 @@ window.addEventListener(
 </script>
 </body>
 </html>
+
 
 
 
