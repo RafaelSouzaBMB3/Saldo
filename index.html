@@ -2740,8 +2740,11 @@ const MODO_CICLO =
 const URL_CONTROLADOR =
   'https://script.google.com/macros/s/AKfycby5VZR_ja8szmf8wjXql9zL0d_NrcmTJOkaDkIDVs9zI6nAH5Bs6gRB-DKfELQHXmtM/exec';
 
+/* API JSONP DO DASHBOARD SALDO NO GOOGLE APPS SCRIPT */
 const URL_API_SALDO =
   'https://script.google.com/macros/s/AKfycbyJHYfVZbPhrZJBS_-TmyJrjpZB7mH4xw1cJ3YGOv6a-IppBzkEvpFk3b85HQQJPJcV4g/exec';
+
+let scriptApiSaldo = null;
 
 let dashboardDados = null;
 let telaAtual = 0;
@@ -2827,49 +2830,75 @@ function carregarDashboard() {
   }
 
   /*
-   * O INDEX agora roda no GitHub Pages.
-   * Portanto, google.script.run não existe aqui.
-   * A API do Saldo fornece os dados por JSONP.
+   * O INDEX ESTÁ HOSPEDADO NO GITHUB PAGES.
+   * Portanto não existe google.script.run neste ambiente.
+   *
+   * Usamos JSONP porque o Apps Script fornece a API em outro
+   * domínio e o carregamento por <script> permite a chamada
+   * sem iframe, sem postMessage e sem servidor intermediário.
    */
+
   const callback =
-    'saldoCallback_' + Date.now();
+    'receberDashboard_' +
+    Date.now();
 
   window[callback] = function(dados) {
 
     try {
       receberDashboard(dados);
     } finally {
+
       try {
         delete window[callback];
       } catch (e) {}
+
+      if (scriptApiSaldo && scriptApiSaldo.parentNode) {
+        scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
+      }
+
+      scriptApiSaldo = null;
     }
   };
 
-  const script =
-    document.createElement('script');
-
-  script.src =
+  const url =
     URL_API_SALDO +
     '?api=saldo&callback=' +
     encodeURIComponent(callback) +
-    '&_ts=' + Date.now();
+    '&_=' +
+    Date.now();
 
-  script.onerror = function() {
+  scriptApiSaldo =
+    document.createElement('script');
+
+  scriptApiSaldo.src = url;
+  scriptApiSaldo.async = true;
+
+  scriptApiSaldo.onerror = function() {
+
+    console.error(
+      'SALDO — erro ao chamar a API JSONP:',
+      url
+    );
+
+    erroDashboard({
+      message: 'Não foi possível chamar o Dashboard Saldo no Google Apps Script.'
+    });
+
     try {
       delete window[callback];
     } catch (e) {}
 
-    erroDashboard({
-      message:
-        'Não foi possível acessar a API do Dashboard Saldo.'
-    });
+    if (scriptApiSaldo && scriptApiSaldo.parentNode) {
+      scriptApiSaldo.parentNode.removeChild(scriptApiSaldo);
+    }
 
-    script.remove();
+    scriptApiSaldo = null;
   };
 
-  document.body.appendChild(script);
-
+  document.head.appendChild(scriptApiSaldo);
 }
+
+
 
 
 
@@ -3983,104 +4012,18 @@ function testarTela5() {
 
 
 function carregarTela5(){
-
   /*
-   * A Tela 5 usa os mesmos dados retornados pela API principal.
-   * Assim não existe uma segunda chamada ao Apps Script e
-   * preservamos exatamente o comportamento visual original.
+   * A API JSONP atual entrega obterDadosDashboard().
+   * Se futuramente o backend também devolver tela5, usamos
+   * diretamente os dados recebidos, sem google.script.run.
+   *
+   * Não fazemos uma segunda chamada desnecessária ao Apps Script.
    */
-  if (!dashboardDados) return;
-
-  /* Se uma versão da API já fornecer a estrutura pronta, usa-a. */
-  if (
-    dashboardDados.quantidadeVerde !== undefined ||
-    dashboardDados.quantidadeAmarelo !== undefined ||
-    dashboardDados.quantidadeVermelho !== undefined ||
-    dashboardDados.quantidadeNaoClassificado !== undefined
-  ) {
-    window.__dadosTela5 = dashboardDados;
-    atualizarTela5(dashboardDados);
-    return;
+  if (dashboardDados && dashboardDados.tela5) {
+    window.__dadosTela5 = dashboardDados.tela5;
+    atualizarTela5(window.__dadosTela5);
   }
-
-  const registros =
-    Array.isArray(dashboardDados.registros)
-      ? dashboardDados.registros
-      : [];
-
-  let verde = 0;
-  let amarelo = 0;
-  let vermelho = 0;
-  let naoClassificado = 0;
-
-  const lotes = {};
-
-  registros.forEach(function(item) {
-
-    const farol = String(
-      item && item.farol !== undefined && item.farol !== null
-        ? item.farol
-        : ''
-    ).trim().toUpperCase();
-
-    let categoria = 'NAO_CLASSIFICADO';
-
-    if (farol.indexOf('🟢') !== -1 || farol.indexOf('VERDE') !== -1) {
-      categoria = 'VERDE';
-      verde++;
-    } else if (farol.indexOf('🟡') !== -1 || farol.indexOf('AMARELO') !== -1 || farol.indexOf('AMARELA') !== -1) {
-      categoria = 'AMARELO';
-      amarelo++;
-    } else if (farol.indexOf('🔴') !== -1 || farol.indexOf('VERMELHO') !== -1 || farol.indexOf('VERMELHA') !== -1) {
-      categoria = 'VERMELHO';
-      vermelho++;
-    } else {
-      naoClassificado++;
-    }
-
-    const lote = String(item && item.lote !== undefined ? item.lote : '').trim();
-    const chave = lote || 'SEM LOTE';
-
-    if (!lotes[chave]) {
-      lotes[chave] = {
-        lote: lote,
-        verde: 0,
-        amarelo: 0,
-        vermelho: 0,
-        naoClassificado: 0,
-        total: 0
-      };
-    }
-
-    lotes[chave].total++;
-
-    if (categoria === 'VERDE') lotes[chave].verde++;
-    else if (categoria === 'AMARELO') lotes[chave].amarelo++;
-    else if (categoria === 'VERMELHO') lotes[chave].vermelho++;
-    else lotes[chave].naoClassificado++;
-  });
-
-  const total =
-    verde + amarelo + vermelho + naoClassificado;
-
-  const dadosTela5 = {
-    quantidadeVerde: verde,
-    quantidadeAmarelo: amarelo,
-    quantidadeVermelho: vermelho,
-    quantidadeNaoClassificado: naoClassificado,
-    percentualVerde: total ? (verde / total) * 100 : 0,
-    percentualAmarelo: total ? (amarelo / total) * 100 : 0,
-    percentualVermelho: total ? (vermelho / total) * 100 : 0,
-    percentualNaoClassificado: total ? (naoClassificado / total) * 100 : 0,
-    base: dashboardDados.base || 'CONTROLE CONTRATO DE MANUTENCAO SESI-SENAI_V.1.5',
-    atualizacao: dashboardDados.atualizadoEm || '--',
-    lotes: Object.keys(lotes).map(function(chave) { return lotes[chave]; })
-  };
-
-  window.__dadosTela5 = dadosTela5;
-  atualizarTela5(dadosTela5);
 }
-
 function contarTela5(el,valor){
   if(!el)return; var fim=Number(valor)||0,inicio=performance.now();
   function f(t){var p=Math.min(1,(t-inicio)/1100);p=1-Math.pow(1-p,3);el.textContent=Math.round(fim*p).toLocaleString('pt-BR');if(p<1)requestAnimationFrame(f)}
@@ -5781,6 +5724,7 @@ window.addEventListener(
 </script>
 </body>
 </html>
+
 
 
 
